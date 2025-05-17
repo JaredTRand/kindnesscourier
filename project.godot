@@ -16,10 +16,10 @@ config/description="This is GamedevTV's very own Godot starter kit! Built on the
 - 1st/ 3rd person character controller with a debug room for testing.
 - A bundled settings menu for controlling visuals, audio, controls, and accessing debug tools."
 config/version="1.0"
-run/main_scene="res://addons/Levels/TestLevel.tscn"
+run/main_scene="res://addons/playercontroller/Levels/TestLevel.tscn"
 config/features=PackedStringArray("4.4", "Forward Plus")
-boot_splash/image="res://addons/GDTVAssetPack/Textures/GDTVSplash.png"
-config/icon="res://addons/GDTVAssetPack/Textures/Leaf.png"
+boot_splash/image="res://addons/playercontroller/GDTVAssetPack/Textures/GDTVSplash.png"
+config/icon="res://addons/playercontroller/GDTVAssetPack/Textures/Leaf.png"
 
 [audio]
 
@@ -27,21 +27,25 @@ buses/default_bus_layout="res://addons/default_bus_layout.tres"
 
 [autoload]
 
-UserInterface="*res://addons/UserInterface/UserInterface.tscn"
+UserInterface="*res://addons/playercontroller/UserInterface/UserInterface.tscn"
 
 [display]
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/phantom_camera/plugin.cfg")
+
 [file_customization]
 
 folder_colors={
 "res://World/": "green",
-"res://addons/Controller/": "orange",
-"res://addons/GDTVAssetPack/": "green",
-"res://addons/Levels/": "blue",
-"res://addons/UserInterface/": "pink"
+"res://addons/playercontroller/Controller/": "orange",
+"res://addons/playercontroller/GDTVAssetPack/": "green",
+"res://addons/playercontroller/Levels/": "blue",
+"res://addons/playercontroller/UserInterface/": "pink"
 }
 
 [input]
