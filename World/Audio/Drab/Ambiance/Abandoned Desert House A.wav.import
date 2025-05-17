@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cud87pjakxmct"
+path="res://.godot/imported/Abandoned Desert House A.wav-8efe2e3550fd0f08cfb90452718f6368.sample"
+
+[deps]
+
+source_file="res://World/Audio/Drab/Ambiance/Abandoned Desert House A.wav"
+dest_files=["res://.godot/imported/Abandoned Desert House A.wav-8efe2e3550fd0f08cfb90452718f6368.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

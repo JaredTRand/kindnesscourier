@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=4 uid="uid://bgm8slgh3fcj5"]
+[gd_scene load_steps=33 format=4 uid="uid://bgm8slgh3fcj5"]
 
 [ext_resource type="PackedScene" uid="uid://vwr8ajoufse8" path="res://addons/Controller/Player.tscn" id="1_611rl"]
 [ext_resource type="Environment" uid="uid://dybgim7p06ncg" path="res://addons/Levels/BrightWorld.tres" id="1_s1ocm"]
@@ -53,6 +53,12 @@ shader_parameter/ColorParameter = Color(0.376471, 0.552941, 0.815686, 1)
 size = Vector2(18, 18)
 subdivide_width = 18
 subdivide_depth = 18
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_bhypf"]
+
+[sub_resource type="MultiMesh" id="MultiMesh_drnk4"]
+transform_format = 1
+mesh = SubResource("PlaneMesh_bhypf")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_67a5h"]
 resource_name = "M_Castle_colour_palette"
@@ -363,24 +369,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 0)
 [node name="Rocks3" parent="Environment/Rocks/Rocks" instance=ExtResource("7_noa7a")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 0)
 
-[node name="Rocks2" parent="Environment/Rocks" instance=ExtResource("7_noa7a")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 27.0175)
-
-[node name="Rocks2" parent="Environment/Rocks/Rocks2" instance=ExtResource("7_noa7a")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 0)
-
-[node name="Rocks3" parent="Environment/Rocks/Rocks2" instance=ExtResource("7_noa7a")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 0)
-
-[node name="Rocks3" parent="Environment/Rocks" instance=ExtResource("7_noa7a")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -22, 1, 3.01749)
-
-[node name="Rocks2" parent="Environment/Rocks/Rocks3" instance=ExtResource("7_noa7a")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 0, 0)
-
-[node name="Rocks3" parent="Environment/Rocks/Rocks3" instance=ExtResource("7_noa7a")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 0)
-
 [node name="Rocks4" parent="Environment/Rocks" instance=ExtResource("7_noa7a")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 28, 1, 3.01749)
 
@@ -399,7 +387,7 @@ mesh = SubResource("PlaneMesh_75owx")
 skeleton = NodePath("../../..")
 
 [node name="Water2" type="MeshInstance3D" parent="Environment/Water"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.356, -0.2, 2.305)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.3979, -0.199996, 2.26544)
 material_override = SubResource("ShaderMaterial_j8x4f")
 mesh = SubResource("PlaneMesh_lk7o2")
 skeleton = NodePath("../../..")
@@ -409,6 +397,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.7574, -0.2, -14.5965)
 material_override = SubResource("ShaderMaterial_v8gb4")
 mesh = SubResource("PlaneMesh_o4r5q")
 skeleton = NodePath("../../..")
+
+[node name="MultiMeshInstance3D" type="MultiMeshInstance3D" parent="Environment/Water"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.117, 0, 0)
+multimesh = SubResource("MultiMesh_drnk4")
 
 [node name="Grass" type="Node3D" parent="Environment"]
 
