@@ -1,8 +1,148 @@
-[gd_scene load_steps=29 format=3 uid="uid://cwed4l7mepad6"]
+[gd_scene load_steps=31 format=4 uid="uid://cwed4l7mepad6"]
 
-[ext_resource type="Script" uid="uid://ccyv5fou8pcc7" path="res://Player/Scripts/player_phantomcam.gd" id="1_adkwp"]
-[ext_resource type="AudioStream" uid="uid://c4prdjc6y4kw2" path="res://addons/playercontroller/GDTVAssetPack/Audio/jump.ogg" id="3_etkpn"]
-[ext_resource type="AudioStream" uid="uid://ds5ewrd6b3tip" path="res://addons/playercontroller/GDTVAssetPack/Audio/tap.ogg" id="4_mwx3o"]
+[sub_resource type="GDScript" id="GDScript_nra3x"]
+script/source = "extends \"player_controller_4.4.gd\"
+class_name PhantomPlayer
+
+## How fast the player moves on the ground.
+@export var base_speed := 6.0
+## How high the player can jump in meters.
+@export var jump_height := 1.2
+## How fast the player falls after reaching max jump height.
+@export var fall_multiplier := 2.5
+
+@export_category(\"Camera\")
+@export var mouse_sensitivity: float = 0.05
+
+@export var min_pitch: float = -89.9
+@export var max_pitch: float = 50
+
+@export var min_yaw: float = 0
+@export var max_yaw: float = 360
+
+@export var min_zoom: float = 1.5
+@export var max_zoom: float = 6.0
+@export var zoom_sensitivity: float = 0.4
+
+
+const LERP_VALUE : float = 0.15
+
+
+@onready var animation_tree: AnimationTree = $AnimationTree
+@onready var run_particles: GPUParticles3D = $PlayerDirection/RunParticles
+@onready var jump_particles: GPUParticles3D = $PlayerDirection/JumpParticles
+
+@onready var move_direction : Vector3 = Vector3.ZERO
+
+@onready var jump_audio: AudioStreamPlayer3D = %JumpAudio
+@onready var run_audio: AudioStreamPlayer3D = %RunAudio
+
+@onready var _player_direction: Node3D = %PlayerDirection
+
+@onready var _player_pcam: PhantomCamera3D
+
+func _ready() -> void:
+	super()
+	_player_pcam = owner.get_node(\"%PlayerPhantomCamera3D\")
+
+	if _player_pcam.get_follow_mode() == _player_pcam.FollowMode.THIRD_PERSON:
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+	# Whenever the player loads in, give the autoload ui a reference to itself.
+	UserInterface.update_player(self)
+
+
+
+
+func _physics_process(delta: float) -> void:
+	super(delta)
+
+	#if velocity.length() > 0.2:
+		#var look_direction: Vector2 = Vector2(velocity.z, velocity.x)
+		#_player_direction.rotation.y = look_direction.angle()
+		#print(str(look_direction) + \" look\")
+	move_direction.x = Input.get_action_strength(\"move_right\") - Input.get_action_strength(\"move_left\")
+	move_direction.z = Input.get_action_strength(\"move_back\") - Input.get_action_strength(\"move_forward\")
+	move_direction = move_direction.rotated(Vector3.UP, _player_pcam._follow_spring_arm.rotation.y)
+	if move_direction:
+		_player_direction.rotation.y = lerp_angle(_player_direction.rotation.y, atan2((move_direction.normalized().x), move_direction.normalized().z), LERP_VALUE)
+		
+	
+	# Add gravity.
+	if not is_on_floor():
+		# if holding jump and ascending be floaty.
+		if velocity.y >= 0 and Input.is_action_pressed(\"ui_accept\"):
+			velocity.y -= gravity * delta
+		else:
+			# Double fall speed, after peak of jump or release of jump button.
+			velocity.y -= gravity * delta * fall_multiplier
+		
+	# Handle jump.
+	if Input.is_action_just_pressed(\"jump\") and is_on_floor():
+		# Projectile motion to turn jump height into a velocity.
+		velocity.y = sqrt(jump_height * 2.0 * gravity)
+		jump_particles.restart()
+		jump_audio.play()
+		run_audio.play()
+	
+	# Handle movement.
+	var direction = get_movement_direction()
+	if direction:
+		velocity.x = lerp(velocity.x, direction.x * base_speed, base_speed * delta)
+		velocity.z =  lerp(velocity.z, direction.z * base_speed, base_speed * delta)
+		_player_direction.rotation.y = lerp_angle(_player_direction.rotation.y, atan2(velocity.x, velocity.z), LERP_VALUE)
+		
+	else:
+		velocity.x = move_toward(velocity.x, 0, base_speed * delta * 5.0)
+		velocity.z = move_toward(velocity.z, 0, base_speed * delta * 5.0)
+	
+	# Emit run particles when moving on the floor.
+	run_particles.emitting = not direction.is_zero_approx() and is_on_floor()
+		
+	update_animation_tree()
+	move_and_slide()
+
+# Turn movent inputs into a locally oriented vector.
+func get_movement_direction() -> Vector3:
+	var input_dir := Input.get_vector(\"move_left\", \"move_right\", \"move_forward\", \"move_back\")
+	return (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	
+
+# Blend the walking animation based on movement direction.
+func update_animation_tree() -> void:
+	# Get the local movement direction.
+	var movement_direction = basis.inverse() * velocity / base_speed
+	# Convert the direction to a Vector2 to select the correct movement animation.
+	var animation_target = Vector2(movement_direction.x, -movement_direction.z)
+	animation_tree.set(\"parameters/blend_position\", animation_target)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if _player_pcam.get_follow_mode() == _player_pcam.FollowMode.THIRD_PERSON:
+		_set_pcam_rotation(_player_pcam, event)
+
+	# Capture the mouse if it is uncaptured.
+	if event.is_action_pressed(\"click\"):
+		if Input.get_mouse_mode() != Input.MOUSE_MODE_CAPTURED:
+			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	
+func _set_pcam_rotation(pcam: PhantomCamera3D, event: InputEvent) -> void:
+	if event is InputEventMouseMotion:
+		var pcam_rotation_degrees: Vector3
+
+		pcam_rotation_degrees = pcam.get_third_person_rotation_degrees()	# Assigns the current 3D rotation of the SpringArm3D node - so it starts off where it is in the edito
+		pcam_rotation_degrees.x -= event.relative.y * mouse_sensitivity		# Change the X rotation
+		pcam_rotation_degrees.x = clampf(pcam_rotation_degrees.x, min_pitch, max_pitch)		# Clamp the rotation in the X axis so it go over or under the target
+		pcam_rotation_degrees.y -= event.relative.x * mouse_sensitivity		# Change the Y rotation value
+		pcam_rotation_degrees.y = wrapf(pcam_rotation_degrees.y, min_yaw, max_yaw)	# Sets the rotation to fully loop around its target, but witout going below or exceeding 0 and 360 degrees respectively
+		pcam.set_third_person_rotation_degrees(pcam_rotation_degrees)	# Change the SpringArm3D node's rotation and rotate around its target
+
+
+
+# Play a footstep sound effect when moving.
+func _on_footstep_timer_timeout() -> void:
+	if is_on_floor() and get_movement_direction():
+		run_audio.play()
+"
 
 [sub_resource type="Animation" id="Animation_i4k0q"]
 resource_name = "Idle"
@@ -205,36 +345,77 @@ blend_point_3/pos = Vector2(0, 1)
 blend_point_4/node = SubResource("AnimationNodeAnimation_w0na7")
 blend_point_4/pos = Vector2(0, -1)
 
+[sub_resource type="OggPacketSequence" id="OggPacketSequence_gysvp"]
+packet_data = Array[Array]([[PackedByteArray("AXZvcmJpcwAAAAABRKwAAAAAAAAAdwEAAAAAALgB")], [PackedByteArray("A3ZvcmJpcysAAABYaXBoLk9yZyBsaWJWb3JiaXMgSSAyMDEyMDIwMyAoT21uaXByZXNlbnQpAAAAAAE="), PackedByteArray("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")], [PackedByteArray("5B3zjVhpaZbbY2tOkSAcA3GOlLIorbhvpb3WYGvVB8OH2+s/Aw=="), PackedByteArray("Mhnd8fZghnY9Kf7ZK8LJ4Cuyjj6/c6eu64AAjOEap2AKAMDQnDJ9M/dMdsTjwUwte5Xa15dfXn55eXNuI7exfnm591RuHcM22XWSLEhJTa02YmrCsnvOfdHC/kj3+Ozy+JQwZIPl6eDNtZn79eiWGJ1cvbtvAwlk15DM1PLLXF3b3/Qk/4OBANOEZEo6vlz6F3k6t+vPA9NAArBhvAETYdIA"), PackedByteArray("/I6PO1hv8sM0v+ZjCgQnAIDGxR4xZc77GPq7wZbR+xcn/g8="), PackedByteArray("FJP5BbDHfwSl+fF9AoIHCMNywuaImcUi2Pi8SX1YcPeAFgE="), PackedByteArray("9JLxLFVzzv/h8RdoEr83IDgBoDfSTlGbao8+0fbPs+wpoO1sVAA="), PackedByteArray("msgdHHqcqpdrtPbTflU+da/cwUv0Hj0XK+YEVDJJluABAADAUbJvHH1ODwS/u7PPsYvqoczp7MWL+xld1XVe13om06uUu9pmzh+ymZip/Dp/0KUTuuBzVm6ClQlu6Y+v7Wu1EP9N8q1xq+iqZ5wcX5f7VXeuimsZchEmTGvSuc9VhyT9JWnOjTWVd+Gdmvc+GQO/P6a1/8ShAw=="), PackedByteArray("/icd2PAatx+lNHbTxfVrJYZdpNnXfQxQ6STpAwAAgGx+yPpnMp25PPjA04NXf2Yc+ZHUmxkevj8j008Hl3YV1rr31xDnzpNHRmPCgmWFLq2Jyy3yj4AvjkILcqBeFT7PMPEMgPY+BBDZG5Nlx8e/yNb5wsKLITD5FfczHvyh88W711l7vHJZKe5TcvNp0TIpAA=="), PackedByteArray("Hqi08teU/ZDaLceBXzMavEbvJSBp2jGc3wBAwAwAOJY3+G14Om19enzQ9qcpxngtTW4Z3lgSZop5c9/mgAZO4/7RafsXxsQ6bJNkDzQ3+bu1JqhfrtUqAyEmLoxmfohlBGQof4juzo+dqE5Bmk79tFMwbmKyijwEJd9LxM/JzMlXxPtwANYBhJ4zmtkEx4dWAAzsDbJLaf9mJtSNgI4E"), PackedByteArray("vmckrGuwI7RbpnWjYVdeGY2dKlBVNYHQigHg37vTuwO5v4976VezF7KnP5uSj8nHTMOr3d5PvWR0OXQimHNVbjiv7i8exaLGQ4RP/aSN+c+UV6YQTuiAseICO/ShkqC8p8n+UaKLtdx3MN86r+ovuohgCMzeeAM9NPPD10OqioTajyT/Ce7XadZUDQBdEZbazQlJErbz34Plj2/DpRenxCGQFIkyVjRNocoFbAA="), PackedByteArray("nmcU6j0tP9B4yX6Dga+hL/dLADVWMiEwkRkAZt97+VC67fg579U5v872uWT/dLEOV3JlXxPGBbst2kfQq0VrXOXPmQMYKVtDrqJGhLJ5x74pZl91bqPYMeBa5qZylDCUKvegnl4+ylxltKQ1rA7YEGAbXKGzeuZ20u0ila/L+PKw7e0rAw5Z78dgDMB33ViA72iVBNv8M6jdEeoV9I0wDGF0Q5lxFCYWvSlB7QsVoNsA"), PackedByteArray("Pmgs5lUxa6B2/2xrSvQ3YE5p/uoAVVUTAl1MAWD+YTsjc07XWVuWXWX8tdnyY71M+sxf71nfeilnUYVit2lcJZbXNV5rLKpVm1XEHDCqkEo6bLijcP+8i2NesPPcAou744o0Wa6vdVx8+arhkvumBjtNgApWtd0m6uxY38ioK3qM10/QX/1oa4IBxID/HOS3VEUeOfCVp2COI4flchBp/aJRIR9Szxx2LJgNE0wA"), PackedByteArray("XmiczCtKoYnL13LWneWcVAFUVU0IylgGgFffPfzKqu9MNaxHM4YZiYt5ffaLtJtSn2dD5pOR4U2iI9561oVXii5O6OBK3oEZwyn0VmzhWcD9gLC6pbAOA67WEud3DtiTTOAdYe8VHGuoXXvPCkkGhYJukfds55Ok1q56mZ6Z69Ztn9/3+zl2BQYwUQ82+wxtTSpb3hgUWsQcoK6yS+GhnM3t4+K4RrGJ7GiMi5uiQHQ2AA=="), PackedByteArray("3mfcxS3YBLovZ/UGLoCZAjCptvrYRKYUgOoVX6WT48F7z+bcpDdZdruQnngxc39qMnojJnKjjz1gVGgapvaXBTl+WbVJvyIois6jly6SZ+JwVgGPeEwh/ccsesoaCZyIt+wtSJ/TFNOSgwpuXFhGRoQu30ENSeFJ5bfbYUT/1vaieCMAoGG7W2si77GyYaHv9mivcyaquEi8z2gCyctg4lJVr1aUWjfsGqUdFo/HBA=="), PackedByteArray("vmdc4j2YAPrBOUgvthIFDlTJ1aedJi0A/D77+HW2Xs+/HJiflU2zd3/TnH9mfXnyH2/Ta1OH2TwJG0x2Z4Psb/9kpNuX+EIPnI9S3G8VEvXc12rgdcZRF8TENaGd2wRHqTxOecUcTgtboj+Isgs2xmzIsT6MZJa5fK+Pb8ek9Rq1bj/TtRllelx0BRh86bve5S7s7EbVHdshIon2S92g5/ifOY1eLltRkCSf1iqXPk0zGo+3ktq/UHJqGCsmAA=="), PackedByteArray("Xmec9R6igSWB611yCRRMqqq01iFFAcw6raz358/Ctst2TwIH5lqfpJm3nFK3/M1dMCQ2a9IQJ3sKUPOCNdAa/R3Ve9KcKDNz0q4R4T/zhbAR0ulfETntH1a01NJcZ6Ej87Gj9Hu/FJHHNlfJTPUhspHVpBH/ufK53lokv5l9ysayCut/6RVddlaUWaTtstQh7ugEpFN1+LjQ2WqkVBUKVc+sjlo6K4nYzJCyZSvLrjnLLNIed/Rna1SM6zAB"), PackedByteArray("Hma8TT1SHSsmsu/WCbXxLhYAY41taa2jAoDb1z6trxirS7uvZ//4MuXVBx6PXr+5MufZJlhlfTpZ61jfh7nH5kyA8Qnrgk9YxNCNofw/POQA0pJPWfD9Ksqpqcruw31d5u7YY9MHxqIvWSLICq0Bte734el4CWCCo+HBfhVBbbNFX9IW85Ilran9OZ9az2Xqfi7+5S7+2z3It3uQb20iv7TB/9Im8rM2JT9rU/uzNtW/Wm5q0pxawOTWMFnuQV7aII8A")]])
+granule_positions = PackedInt64Array(0, 0, 11584)
+sampling_rate = 44100.0
+
+[sub_resource type="AudioStreamOggVorbis" id="AudioStreamOggVorbis_wj7hy"]
+packet_sequence = SubResource("OggPacketSequence_gysvp")
+
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_8skvo"]
 streams_count = 1
-stream_0/stream = ExtResource("3_etkpn")
+stream_0/stream = SubResource("AudioStreamOggVorbis_wj7hy")
+
+[sub_resource type="OggPacketSequence" id="OggPacketSequence_6e7ua"]
+packet_data = Array[Array]([[PackedByteArray("AXZvcmJpcwAAAAABRKwAAAAAAAAAdwEAAAAAALgB")], [PackedByteArray("A3ZvcmJpcysAAABYaXBoLk9yZyBsaWJWb3JiaXMgSSAyMDEyMDIwMyAoT21uaXByZXNlbnQpAAAAAAE="), PackedByteArray("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")], [PackedByteArray("5A3DnhzLonUCOdiZNAEj4djEHImLEM/8T9vaMfCbyn8ddT1l4xQSAw=="), PackedByteArray("0mds9VZemAXqoIn6jsl3czZcMYfMNjlo06qJkD2SmQLFUZMmqqHzYUw115Hei6jfXwz7lq2/fq+SMa6MMiKRW9teHufRKEb3LUty0OHqR4kP+sgGoWh/4rZrVDVqaTQ92n9oeJ514Dqb8rzyvsIy/Re4HalZXnKeVzTxIhSIz8VHG+bzPrsU8fJK9B/oW+MBABpL7coRjD3kzEmmWMJgWb10SGroTbQMbxkJCpHI/fAX5TSLLQonKQH/aL8e3PXPfompg1+hFdAA"), PackedByteArray("3BXloWH3zcRCgBuAhkI54OIFHVTjRcQj1LX6ApmIE3S398eMq5A="), PackedByteArray("DCLDbLcz+9MzLKGfTw8glfNs7Zx2OJHi2xdXw/vz1KZF0L402CRdB4M5L+s73o8PAA=="), PackedByteArray("ZGbxc5VALHd/QoGW1A4QLqAG4Pgj2kZzI7un8zt1ulrT92s9z+8Ar5mPAx0="), PackedByteArray("rGrJN8jb57+ZIvJnNAie8PHwqmHzra6c4jNt+2prspsUXwjz1wM="), PackedByteArray("+kkd62d5JUNWLB9vuZKz+kVU/XdfHAbZPTDcwAKYjn5NwEwBAJ+5vzmzNW47fQ6WxdA3nUTxMhENr5JnQS+tLGabkK+9zM2dk5FZCas6nZ+IKFFE+RLMO8htDntzDOgX4a+zNhutk98Iu1Poy7TSa/vz4nxW8iVrbsBI+88L4TkblYUc6XJWvU9ji/4rdnLmkQkGjJlpN/bmgaWiBfSemgQ="), PackedByteArray("3iv9PL+CO+g+n4aP8vUaj4H6wwZQlYzMzACA/f9nn12ynuVbfbLM7FstF37tntwsx+9esnkqlTTNYdylzhyOtinfmdaYG12n0ch6ndm/MwQCr9UnHL3L9f8RkuV7632Sx7SVh2COLYfBqgr0REPViX1aCLkLjCJgTjv+iBSp5paCsAUUXS+UPKt2r+/+AgBINHFs+K6Ey8YcoYSacaXPT1c7VMFDA2w="), PackedByteArray("3tm8x1uSTHTq9ZTbOMb1BmzTjmJEh2ma1oQTq5kCSN6Pu6U23eTyci++L529OPgvF+YfN2yTcSYXlbiJRsueAgEaGuDN2TLX9SMNUb17JFz4cvJu9iULo/NkHaH0iTn6BL0K36ug8csQMkHcL1f1gmrHbZzfEYQMSEETcyYKRkxUP2ipdDK75au3DybXBQDY5cJEdtIRJo46UEYVN9q111TBpIyvT7WaVnec24E9NWIi9bgMphWRWmqlVL1pK108AA=="), PackedByteArray("vpm8jo/SegHX0+gY5VtAsl6bDoxVuVHoaBQAzLr39J7d1Mz08iLxz7g6O5v1gE4O/pv/ikxSWxMmmyVeX43nauZsDivp0nqJwUOOT3gP10UzapUcJ2u1BFHkbZ+8Dx4DZtveVo7mXFIBvFz4LF5MsMyurtUGkH8xYwU5f/wI00zaH73amgtDpyOCpejNQkbksFqRfPF2LKJ5H0eFtWev7+FtvSgmb6x5YrO6a1aLRJFDy7ZUwKZojtpGwTM35UJiAw=="), PackedByteArray("nmX8c9R4CFbcwLWBm2HzDKDkqEMAAAC498nm1X/fvbtsk75KzP7n6ceH8m19+Ncul510Y/psl7N8yW85Zwxyf/XX6yh/9m+rzo+evNDtkRafJwKH70PepX19yd7Vdb0OfbGdjYgW9NQEoPHs+U80uu8x/xlpMQDseVI6jqjfyEZEFwA=")]])
+granule_positions = PackedInt64Array(0, 0, 5312)
+sampling_rate = 44100.0
+
+[sub_resource type="AudioStreamOggVorbis" id="AudioStreamOggVorbis_ff7y4"]
+packet_sequence = SubResource("OggPacketSequence_6e7ua")
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_l80nr"]
 random_pitch = 1.1
 random_volume_offset_db = 0.5
 streams_count = 1
-stream_0/stream = ExtResource("4_mwx3o")
+stream_0/stream = SubResource("AudioStreamOggVorbis_ff7y4")
 
 [node name="Player" type="CharacterBody3D" groups=["Player"]]
 floor_max_angle = 0.872665
-script = ExtResource("1_adkwp")
+script = SubResource("GDScript_nra3x")
 metadata/_custom_type_script = "uid://ccyv5fou8pcc7"
 
-[node name="BasePivot" type="Node3D" parent="."]
+[node name="PlayerDirection" type="Node3D" parent="."]
+unique_name_in_owner = true
 transform = Transform3D(0.999403, -0.0341708, -0.00518501, 0.0345599, 0.989665, 0.139173, 0.000375782, -0.139269, 0.990255, 0, -1, 0)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="BasePivot"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PlayerDirection"]
 libraries = {
 &"": SubResource("AnimationLibrary_56ijk")
 }
 
-[node name="ProtoMesh" type="MeshInstance3D" parent="BasePivot"]
+[node name="ProtoMesh" type="MeshInstance3D" parent="PlayerDirection"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 material_override = SubResource("StandardMaterial3D_mx3t8")
 mesh = SubResource("CapsuleMesh_leh0u")
 skeleton = NodePath("../..")
 
-[node name="RunParticles" type="GPUParticles3D" parent="BasePivot"]
+[node name="ProtoMesh2" type="MeshInstance3D" parent="PlayerDirection/ProtoMesh"]
+transform = Transform3D(0.404149, 0.183842, 0, -0.183842, 0.404149, 0, 0, 0, 0.443998, -0.49057, 0.0127273, 0)
+material_override = SubResource("StandardMaterial3D_mx3t8")
+mesh = SubResource("CapsuleMesh_leh0u")
+skeleton = NodePath("../../..")
+
+[node name="ProtoMesh3" type="MeshInstance3D" parent="PlayerDirection/ProtoMesh"]
+transform = Transform3D(-0.404731, -0.182556, -3.88151e-08, -0.182556, 0.404731, 1.87455e-10, 3.53053e-08, 1.61302e-08, -0.443998, 0.515938, 0.00475158, 0)
+material_override = SubResource("StandardMaterial3D_mx3t8")
+mesh = SubResource("CapsuleMesh_leh0u")
+skeleton = NodePath("../../..")
+
+[node name="ProtoMesh4" type="MeshInstance3D" parent="PlayerDirection/ProtoMesh"]
+transform = Transform3D(0.319425, -0.00222044, -0.001837, 0.00183696, -1.27833e-05, 0.319433, -0.00222048, -0.319431, -1.39631e-08, -0.220235, 0.495871, 0.1)
+material_override = SubResource("StandardMaterial3D_mx3t8")
+mesh = SubResource("CapsuleMesh_leh0u")
+skeleton = NodePath("../../..")
+
+[node name="ProtoMesh5" type="MeshInstance3D" parent="PlayerDirection/ProtoMesh"]
+transform = Transform3D(0.319425, -0.00222044, -0.00183745, 0.00183741, -1.27865e-05, 0.319433, -0.00222048, -0.319431, -1.39631e-08, 0.226492, 0.494352, 0.0999585)
+material_override = SubResource("StandardMaterial3D_mx3t8")
+mesh = SubResource("CapsuleMesh_leh0u")
+skeleton = NodePath("../../..")
+
+[node name="RunParticles" type="GPUParticles3D" parent="PlayerDirection"]
 cast_shadow = 0
 emitting = false
 amount = 32
@@ -242,7 +423,7 @@ lifetime = 0.5
 process_material = SubResource("ParticleProcessMaterial_c2uhr")
 draw_pass_1 = SubResource("SphereMesh_jdvgd")
 
-[node name="JumpParticles" type="GPUParticles3D" parent="BasePivot"]
+[node name="JumpParticles" type="GPUParticles3D" parent="PlayerDirection"]
 cast_shadow = 0
 emitting = false
 amount = 6
@@ -256,9 +437,9 @@ draw_pass_1 = SubResource("SphereMesh_v6snp")
 shape = SubResource("CapsuleShape3D_t7spk")
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-root_node = NodePath("../BasePivot")
+root_node = NodePath("%PlayerDirection")
 tree_root = SubResource("AnimationNodeBlendSpace2D_e0dl0")
-anim_player = NodePath("../BasePivot/AnimationPlayer")
+anim_player = NodePath("../PlayerDirection/AnimationPlayer")
 parameters/blend_position = Vector2(0, 0)
 
 [node name="Audio" type="Node3D" parent="."]
