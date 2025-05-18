@@ -104,7 +104,6 @@ jump_time_to_peak = 0.35
 jump_time_to_descent = 0.29
 jump_cut_multiplier = 0.5
 jump_cooldown = 0.2
-nb_jumps_in_air_allowed = 1
 coyote_jump_cooldown = 0.2
 in_air_move_speed = Array[Curve]([SubResource("Curve_l1d2p"), SubResource("Curve_pdxi8")])
 in_air_accel = Array[Curve]([SubResource("Curve_8rpwc"), SubResource("Curve_x3fw6")])
