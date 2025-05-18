@@ -65,22 +65,26 @@ var coyote_jump_on : bool = false
 @export var follow_cam_pos_when_aimed : bool = false
 
 #references variables
-@onready var visual_root = %VisualRoot
-@onready var godot_plush_skin = %GodotPlushSkin
-@onready var particles_manager = %ParticlesManager
-@onready var cam_holder = $OrbitView
-@onready var state_machine = $StateMachine
-@onready var debug_hud = %DebugHUD
-@onready var foot_step_audio = %FootStepAudio
-@onready var impact_audio = %ImpactAudio
-@onready var wave_audio = %WaveAudio
-@onready var collision_shape_3d = %CollisionShape3D
-@onready var floor_check : RayCast3D = %FloorRaycast
+@onready var visual_root 				= %VisualRoot
+@onready var godot_plush_skin 			= %GodotPlushSkin
+@onready var particles_manager 			= %ParticlesManager
+@onready var cam_holder 				= $OrbitView
+@onready var state_machine 				= $StateMachine
+@onready var debug_hud				 	= %DebugHUD
+@onready var foot_step_audio 			= %FootStepAudio
+@onready var impact_audio 				= %ImpactAudio
+@onready var wave_audio 				= %WaveAudio
+@onready var collision_shape_3d 		= %CollisionShape3D
+@onready var floor_check : RayCast3D 	= %FloorRaycast
+@onready var interact_check : RayCast3D = %InteractRaycast
 
 #particles variables
 @onready var movement_dust = %MovementDust
 @onready var jump_particles = preload("res://addons/PlayerCharacter/Vfx/jump_particles.tscn")
 @onready var land_particles = preload("res://addons/PlayerCharacter/Vfx/land_particles.tscn")
+
+var cur_interacting
+var pre_interacting
 
 func _ready():
 	#set move variables, and value references
@@ -100,8 +104,9 @@ func _ready():
 		
 func _process(delta: float):
 	modify_model_orientation(delta)
-	
 	display_properties()
+
+	raycast_process()
 	
 func _physics_process(_delta : float):
 	modify_physics_properties()
@@ -160,6 +165,18 @@ func squash_and_strech(value : float, timing : float):
 	
 	
 	
+func raycast_process():
+	if interact_check.get_collider() == self: return  #if interacting with self, return
 	
+	cur_interacting = interact_check.get_collider()
+	debug_hud.display_interacting_with_lt(cur_interacting)
+	
+	if cur_interacting and cur_interacting.is_in_group("interactable"):
+		if cur_interacting.has_method("do_colliding"): cur_interacting.do_colliding()
+	elif pre_interacting and not cur_interacting: #if just moved off collider
+		if pre_interacting.has_method("stop_colliding"): pre_interacting.stop_colliding()
+	
+	pre_interacting = cur_interacting
+
 	
 	

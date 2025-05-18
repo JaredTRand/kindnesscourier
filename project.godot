@@ -22,6 +22,7 @@ buses/default_bus_layout=""
 
 [autoload]
 
+UserInterface="*res://addons/playercontroller/UserInterface/UserInterface.tscn"
 PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
 TownHappiness="*res://town_happiness.gd"
 
@@ -32,7 +33,7 @@ window/size/initial_screen=3
 
 [editor_plugins]
 
-enabled=PackedStringArray()
+enabled=PackedStringArray("res://addons/phantom_camera/plugin.cfg")
 
 [file_customization]
 
@@ -40,6 +41,10 @@ folder_colors={
 "res://Player/": "purple",
 "res://World/": "green"
 }
+
+[global_group]
+
+interactable="Anything Interactable"
 
 [input]
 
@@ -140,9 +145,13 @@ ragdoll={
 [physics]
 
 3d/physics_engine="Jolt Physics"
-common/physics_interpolation=true
 
 [rendering]
 
 anti_aliasing/quality/msaa_3d=2
 anti_aliasing/quality/screen_space_aa=1
+lights_and_shadows/physics_interpolation=true
+lights_and_shadows/description="This is GamedevTV's very own Godot starter kit! Built on the Castle Kingdoms asset pack, this starter kit aims to get you set up in three key ways:
+- A demo scene showing all the kit content in action.
+- 1st/ 3rd person character controller with a debug room for testing.
+- A bundled settings menu for controlling visuals, audio, controls, and accessing debug tools."

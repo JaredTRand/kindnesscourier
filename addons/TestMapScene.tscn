@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://db33ayyjox3p7"]
+[gd_scene load_steps=9 format=3 uid="uid://db33ayyjox3p7"]
 
 [ext_resource type="PackedScene" uid="uid://bgkmxyw21pc1m" path="res://addons/PlayerCharacter/PlayerCharacterScene.tscn" id="1_6f4by"]
 [ext_resource type="Material" uid="uid://coy4nf1ts2u0q" path="res://addons/Arts/Materials/grid_mat.tres" id="2_d8mrn"]
+[ext_resource type="PackedScene" uid="uid://drafawndvp20w" path="res://World/TEST/interact_test.tscn" id="3_d8mrn"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_6f4by"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -121,5 +122,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 2, -6)
 polygon = PackedVector2Array(0, 0, 0, 2, 6, 0)
 depth = 6.0
 
+[node name="NPC" parent="." instance=ExtResource("3_d8mrn")]
+transform = Transform3D(-0.57958, 0, 0.814915, 0, 1, 0, -0.814915, 0, -0.57958, -9.93853, 6.0115, -14.4603)
+npc_name = "Testy"
+
 [node name="Player" parent="." instance=ExtResource("1_6f4by")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 6, -18)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.00151, 6.01149, -16.1175)

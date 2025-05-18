@@ -122,6 +122,18 @@ follow_cam_pos_when_aimed = true
 [node name="VisualRoot" type="Node3D" parent="."]
 unique_name_in_owner = true
 
+[node name="Raycasts" type="Node3D" parent="VisualRoot"]
+
+[node name="FloorRaycast" type="RayCast3D" parent="VisualRoot/Raycasts"]
+unique_name_in_owner = true
+target_position = Vector3(0, -2, 0)
+collision_mask = 2
+
+[node name="InteractRaycast" type="RayCast3D" parent="VisualRoot/Raycasts"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+target_position = Vector3(0, 0, 3)
+
 [node name="GodotPlushSkin" parent="VisualRoot" instance=ExtResource("2_mtsks")]
 unique_name_in_owner = true
 
@@ -192,13 +204,6 @@ metadata/_custom_type_script = "uid://bh3rdvokmrar1"
 script = ExtResource("17_pdxi8")
 metadata/_custom_type_script = "uid://d2tif6xsjkwnw"
 
-[node name="Raycasts" type="Node3D" parent="."]
-
-[node name="FloorRaycast" type="RayCast3D" parent="Raycasts"]
-unique_name_in_owner = true
-target_position = Vector3(0, -2, 0)
-collision_mask = 2
-
 [node name="DebugHUD" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 script = ExtResource("17_qmq2g")
@@ -237,6 +242,11 @@ layout_mode = 2
 text = "Coyote time :"
 label_settings = ExtResource("17_c1i0s")
 
+[node name="interactingwith" type="Label" parent="DebugHUD/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Interacting :"
+label_settings = ExtResource("17_c1i0s")
+
 [node name="VBoxContainer2" type="VBoxContainer" parent="DebugHUD/HBoxContainer"]
 layout_mode = 2
 
@@ -265,6 +275,12 @@ text = "....."
 label_settings = ExtResource("17_c1i0s")
 
 [node name="CoyoteTimeLT" type="Label" parent="DebugHUD/HBoxContainer/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "....."
+label_settings = ExtResource("17_c1i0s")
+
+[node name="interactingwithLT2" type="Label" parent="DebugHUD/HBoxContainer/VBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "....."
