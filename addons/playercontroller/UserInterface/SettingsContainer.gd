@@ -8,14 +8,14 @@ signal exit()
 @export var default_fov: float = 75
 
 @export_category("Mouse Sensitivity")
-@export var very_low_sens: float = 0.00025
-@export var low_sens: float = 0.0005
-@export var medium_sens: float = 0.00075
-@export var high_sens: float = 0.001
-@export var very_high_sens: float = 0.00125
+@export var very_low_sens: float = 0.01
+@export var low_sens: float = 0.025
+@export var medium_sens: float = 0.05
+@export var high_sens: float = 0.1
+@export var very_high_sens: float = .25
 
 # A reference to the player for maintaining settings.
-var _player: Player
+var _player: PhantomPlayer
 
 @onready var fov_slider: HSlider = %FOVSlider
 @onready var fov_value: Label = %FOVValue
@@ -157,7 +157,7 @@ func _on_reload_button_pressed() -> void:
 
 
 # When the player node changes apply the latest gameplay settings.
-func update_player(player_in: Player) -> void:
+func update_player(player_in: PhantomPlayer) -> void:
 	_player = player_in
 	_on_fov_slider_value_changed(fov_slider.value)
 	_on_option_button_item_selected(sensitivity_dropdown.selected)
