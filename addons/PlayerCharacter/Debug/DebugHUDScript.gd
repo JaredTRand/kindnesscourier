@@ -12,6 +12,7 @@ extends CanvasLayer
 @onready var camera_mode_LT = %CameraModeLT
 @onready var frames_per_second_LT = %FramesPerSecondLT
 @onready var interacting_with_lt = %interactingwithLT2
+@onready var is_input_controller_lt = %isinputcontrollerwithLT2
 
 func display_curr_state(curr_state : String):
 	current_state_LT.set_text(str(curr_state))
@@ -43,6 +44,7 @@ func display_frames_per_second():
 func display_interacting_with_lt(inter):
 	frames_per_second_LT.set_text(str(inter))
 	
-	
+func display_is_input_controller_lt(inter):
+	is_input_controller_lt.set_text(str("asdas"))
 	
 	

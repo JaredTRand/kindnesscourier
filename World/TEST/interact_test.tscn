@@ -1,11 +1,14 @@
-[gd_scene load_steps=12 format=4 uid="uid://drafawndvp20w"]
+[gd_scene load_steps=16 format=4 uid="uid://drafawndvp20w"]
 
 [ext_resource type="Material" uid="uid://buh6uaww5rtsq" path="res://addons/PlayerCharacter/GodotPlush/Material/godot_plush_mat.tres" id="1_0bbpq"]
 [ext_resource type="Script" uid="uid://81hse5nagsf7" path="res://World/TEST/npc.gd" id="1_3gect"]
 [ext_resource type="Shader" uid="uid://dhkgcxxo8ja7b" path="res://addons/PlayerCharacter/GodotPlush/Material/godot_plush.gdshader" id="2_3gect"]
 [ext_resource type="Texture2D" uid="uid://drijhg0g7ak1n" path="res://addons/PlayerCharacter/GodotPlush/Material/godot_plush_albedo.png" id="3_aapkc"]
 [ext_resource type="Texture2D" uid="uid://dts2qgujqag2b" path="res://addons/PlayerCharacter/GodotPlush/Material/godot_plush_normal.png" id="4_lgfh0"]
-[ext_resource type="FontFile" uid="uid://c4mm3of2mc8o5" path="res://addons/phantom_camera/fonts/Nunito-Black.ttf" id="6_aapkc"]
+[ext_resource type="Texture2D" uid="uid://dq3ymp887isyr" path="res://switch_buttons_left_outline.png" id="6_aapkc"]
+[ext_resource type="Script" uid="uid://csjccrhj5wnx7" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="7_f27pu"]
+[ext_resource type="Resource" uid="uid://cptfoggk2ok67" path="res://addons/phantom_camera/examples/resources/tween/player_phantom_camera_3d_tween.tres" id="8_e2xmt"]
+[ext_resource type="Script" uid="uid://b8hhnqsugykly" path="res://addons/phantom_camera/scripts/resources/camera_3d_resource.gd" id="9_akgo5"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_0bbpq"]
 radius = 0.605
@@ -120,6 +123,19 @@ shader_parameter/albedo_texture = ExtResource("3_aapkc")
 shader_parameter/normal_texture = ExtResource("4_lgfh0")
 shader_parameter/uv_offset = Vector2(0, 0)
 
+[sub_resource type="Resource" id="Resource_exf5c"]
+script = ExtResource("9_akgo5")
+keep_aspect = 1
+cull_mask = 1048575
+h_offset = 0.0
+v_offset = 0.0
+projection = 0
+fov = 75.0
+size = 1.0
+frustum_offset = Vector2(0, 0)
+near = 0.05
+far = 4000.0
+
 [node name="NPC" type="CharacterBody3D" groups=["interactable"]]
 script = ExtResource("1_3gect")
 
@@ -135,11 +151,21 @@ surface_material_override/0 = ExtResource("1_0bbpq")
 surface_material_override/1 = SubResource("ShaderMaterial_e2xmt")
 surface_material_override/2 = SubResource("ShaderMaterial_akgo5")
 
-[node name="InteractDialogue" type="Label3D" parent="."]
+[node name="InteractDialogue" type="Sprite3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 visible = false
+billboard = 1
 no_depth_test = true
-modulate = Color(1, 0.603922, 0.254902, 1)
-text = "Press [ F ] to change camera"
-font = ExtResource("6_aapkc")
+texture = ExtResource("6_aapkc")
+
+[node name="NPCPhantomCamera3D" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(0.616596, -0.109786, 0.779587, -2.23517e-08, 0.990229, 0.13945, -0.78728, -0.0859841, 0.610571, 2.01198, 1.50739, 2.19719)
+script = ExtResource("7_f27pu")
+tween_resource = ExtResource("8_e2xmt")
+camera_3d_resource = SubResource("Resource_exf5c")
+
+[node name="MoveToLocation" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 1.963)

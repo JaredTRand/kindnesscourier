@@ -22,9 +22,8 @@ buses/default_bus_layout=""
 
 [autoload]
 
-UserInterface="*res://addons/playercontroller/UserInterface/UserInterface.tscn"
 PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
-TownHappiness="*res://town_happiness.gd"
+Globals="*res://Globals.gd"
 
 [display]
 

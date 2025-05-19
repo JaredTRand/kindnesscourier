@@ -77,6 +77,7 @@ var coyote_jump_on : bool = false
 @onready var collision_shape_3d 		= %CollisionShape3D
 @onready var floor_check : RayCast3D 	= %FloorRaycast
 @onready var interact_check : RayCast3D = %InteractRaycast
+@onready var movement_enabled : bool    = false
 
 #particles variables
 @onready var movement_dust = %MovementDust
@@ -85,6 +86,10 @@ var coyote_jump_on : bool = false
 
 var cur_interacting
 var pre_interacting
+
+var tween: Tween
+var tween_duration: float = 0.9
+var tween_transition: Tween.TransitionType = Tween.TRANS_QUAD
 
 func _ready():
 	#set move variables, and value references
@@ -169,7 +174,6 @@ func raycast_process():
 	if interact_check.get_collider() == self: return  #if interacting with self, return
 	
 	cur_interacting = interact_check.get_collider()
-	debug_hud.display_interacting_with_lt(cur_interacting)
 	
 	if cur_interacting and cur_interacting.is_in_group("interactable"):
 		if cur_interacting.has_method("do_colliding"): cur_interacting.do_colliding()
@@ -180,3 +184,21 @@ func raycast_process():
 
 	
 	
+func _input(event) -> void:
+	if not cur_interacting or not cur_interacting.is_in_group("interactable"): return
+
+	if event.is_action("interact"):
+		var tween: Tween = get_tree().create_tween() \
+			.set_parallel(true) \
+			.set_trans(Tween.TRANS_QUART) \
+			.set_ease(Tween.EASE_IN_OUT)
+
+		if not cur_interacting.is_interacting:
+			movement_enabled = false
+			cur_interacting.npc_pcam.priority = 20
+			tween.tween_property(self, "global_position", cur_interacting.interact_move_to, 0.6).set_trans(tween_transition)
+			#tween.tween_property(self, "global_rotation", cur_interacting.interact_rotate_to, 0.6).set_trans(tween_transition)
+		else:
+			cur_interacting.npc_pcam.priority = 0
+			movement_enabled = true
+		cur_interacting.is_interacting = !cur_interacting.is_interacting
