@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bgkmxyw21pc1m" path="res://addons/PlayerCharacter/PlayerCharacterScene.tscn" id="1_6f4by"]
 [ext_resource type="Material" uid="uid://coy4nf1ts2u0q" path="res://addons/Arts/Materials/grid_mat.tres" id="2_d8mrn"]
-[ext_resource type="PackedScene" uid="uid://drafawndvp20w" path="res://World/TEST/interact_test.tscn" id="3_d8mrn"]
+[ext_resource type="PackedScene" uid="uid://drafawndvp20w" path="res://World/NPCs/interact_test.tscn" id="3_d8mrn"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_6f4by"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)

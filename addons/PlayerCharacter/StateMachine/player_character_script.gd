@@ -77,7 +77,7 @@ var coyote_jump_on : bool = false
 @onready var collision_shape_3d 		= %CollisionShape3D
 @onready var floor_check : RayCast3D 	= %FloorRaycast
 @onready var interact_check : RayCast3D = %InteractRaycast
-@onready var movement_enabled : bool    = false
+@onready var movement_enabled : bool    = true
 
 #particles variables
 @onready var movement_dust = %MovementDust
@@ -110,6 +110,7 @@ func _ready():
 func _process(delta: float):
 	modify_model_orientation(delta)
 	display_properties()
+	   
 
 	raycast_process()
 	
@@ -151,6 +152,7 @@ func modify_model_orientation(delta : float):
 func modify_physics_properties():
 	last_frame_position = position #get play char position every frame
 	last_frame_velocity = velocity #get play char velocity every frame
+
 	was_on_floor = !is_on_floor() #get if play char is on floor or not
 	
 func gravity_apply(delta : float):
@@ -194,11 +196,13 @@ func _input(event) -> void:
 			.set_ease(Tween.EASE_IN_OUT)
 
 		if not cur_interacting.is_interacting:
-			movement_enabled = false
-			cur_interacting.npc_pcam.priority = 20
 			tween.tween_property(self, "global_position", cur_interacting.interact_move_to, 0.6).set_trans(tween_transition)
 			#tween.tween_property(self, "global_rotation", cur_interacting.interact_rotate_to, 0.6).set_trans(tween_transition)
+			cur_interacting.do_interact()
+			movement_enabled = false
 		else:
-			cur_interacting.npc_pcam.priority = 0
 			movement_enabled = true
-		cur_interacting.is_interacting = !cur_interacting.is_interacting
+	elif cur_interacting.is_interacting && (event.is_action("move_right") or event.is_action("move_left") or event.is_action("move_forward") or event.is_action("move_backward")):
+		pass
+		# movement_enabled = true
+		# cur_interacting.stop_interact()
