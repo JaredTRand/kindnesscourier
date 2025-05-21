@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Gift" load_steps=3 format=3 uid="uid://dgtf7cjnvpoun"]
+
+[ext_resource type="Texture2D" uid="uid://djmwrincwmsk8" path="res://assets/gifts/pics/petrock.png" id="1_prfcw"]
+[ext_resource type="Script" uid="uid://blstnqwtri557" path="res://assets/scripts/gift.gd" id="2_2jgc0"]
+
+[resource]
+script = ExtResource("2_2jgc0")
+gift_name = "Pet Rock"
+gift_type = ""
+gift_image = ExtResource("1_prfcw")
+metadata/_custom_type_script = "uid://blstnqwtri557"

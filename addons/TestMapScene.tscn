@@ -123,7 +123,7 @@ polygon = PackedVector2Array(0, 0, 0, 2, 6, 0)
 depth = 6.0
 
 [node name="NPC" parent="." instance=ExtResource("3_d8mrn")]
-transform = Transform3D(-0.57958, 0, 0.814915, 0, 1, 0, -0.814915, 0, -0.57958, -9.93853, 6.0115, -14.4603)
+transform = Transform3D(-0.57958, 0, 0.814915, 0, 1, 0, -0.814915, 0, -0.57958, -9.96007, 6.04129, -14.4475)
 npc_name = "Testy"
 
 [node name="Player" parent="." instance=ExtResource("1_6f4by")]

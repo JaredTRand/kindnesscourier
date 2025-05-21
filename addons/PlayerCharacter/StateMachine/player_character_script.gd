@@ -79,6 +79,11 @@ var coyote_jump_on : bool = false
 @onready var interact_check : RayCast3D = %InteractRaycast
 @onready var movement_enabled : bool    = true
 
+@onready var INVENTORY = []
+@export_category("Jared's Extras")
+@onready var GIFTS_LIST: Array
+
+
 #particles variables
 @onready var movement_dust = %MovementDust
 @onready var jump_particles = preload("res://addons/PlayerCharacter/Vfx/jump_particles.tscn")
@@ -101,12 +106,24 @@ func _ready():
 	nb_jumps_in_air_allowed_ref = nb_jumps_in_air_allowed
 	coyote_jump_cooldown_ref = coyote_jump_cooldown
 	
+	Dialogic.signal_event.connect(func(givegift:String):
+		var gift_to_add = ""
+		
+		if gift_to_add: INVENTORY.append(gift_to_add)
+		)
+	
 	#set char model audios effects
 	godot_plush_skin.footstep.connect(func(intensity : float = 1.0):
 		foot_step_audio.volume_db = linear_to_db(intensity)
 		foot_step_audio.play()
 		)
 		
+	#Load list of gifts on start
+	for filePath in DirAccess.get_files_at("res://assets/gifts/allgifts/"):
+		if filePath.get_extension() == "tres":  
+			GIFTS_LIST.append( load("res://assets/gifts/allgifts/" + filePath) )
+			
+			
 func _process(delta: float):
 	modify_model_orientation(delta)
 	display_properties()
