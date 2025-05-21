@@ -8,7 +8,6 @@ extends CharacterBody3D
 @onready var interact_dialogue: Sprite3D = %InteractDialogue
 @onready var is_interacting:bool = false
 
-
 func do_colliding():
 	interact_dialogue.show()
 func stop_colliding():

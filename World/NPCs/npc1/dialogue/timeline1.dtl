@@ -1,4 +1,13 @@
-join  center
-npc1: Hi friend
-npc1: Take this!
-[signal arg="Pet Rock"]
+if {first_interaction} == false:
+	set {first_interaction} = true
+	join  center
+	npc1: Hi friend
+	npc1: Take this!
+	[signal arg="Pet Rock"]
+	set {gift_given} = true
+	label Pet rock (Pet Rock)
+	[background arg="res://assets/gifts/pics/petrock.png" fade="0.5" transition="Swipe Left To Right"]
+	npc1: Give this to someone who needs it.
+elif {} == "":
+elif {gift_given} == true:
+	npc1: I hope you appreciate it more than I did.
