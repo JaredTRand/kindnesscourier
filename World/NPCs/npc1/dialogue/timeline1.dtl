@@ -1,4 +1,4 @@
 join  center
 npc1: Hi friend
 npc1: Take this!
-[signal arg="petrock"]
+[signal arg="Pet Rock"]
