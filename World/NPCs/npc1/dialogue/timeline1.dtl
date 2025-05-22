@@ -9,6 +9,8 @@ if {npc1.first_interaction} == false:
 	npc1: Give this to someone who needs it.
 elif Globals.player_has_gift( {npc1.acceptable_gift} ) == true:
 	npc1: wow thank you
+	do Globals.inc_happiness(10)
+
 elif {npc1.gift_to_player} == true:
 	npc1: I hope you appreciate it more than I did.
-[end_timeline]
+	[end_timeline]

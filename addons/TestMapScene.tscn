@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://db33ayyjox3p7"]
+[gd_scene load_steps=10 format=3 uid="uid://db33ayyjox3p7"]
 
 [ext_resource type="PackedScene" uid="uid://bgkmxyw21pc1m" path="res://addons/PlayerCharacter/PlayerCharacterScene.tscn" id="1_6f4by"]
 [ext_resource type="Material" uid="uid://coy4nf1ts2u0q" path="res://addons/Arts/Materials/grid_mat.tres" id="2_d8mrn"]
 [ext_resource type="PackedScene" uid="uid://drafawndvp20w" path="res://World/NPCs/interact_test.tscn" id="3_d8mrn"]
+[ext_resource type="PackedScene" uid="uid://dfhqivugjpb31" path="res://assets/Stylized Nature MegaKit[Standard]/scenes/tree.tscn" id="4_5lc62"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_6f4by"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -128,3 +129,6 @@ npc_name = "Testy"
 
 [node name="Player" parent="." instance=ExtResource("1_6f4by")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.00151, 6.01149, -16.1175)
+
+[node name="Tree" parent="." instance=ExtResource("4_5lc62")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.1165, 6.33556, -21.4393)
