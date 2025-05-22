@@ -6,7 +6,6 @@
 [resource]
 script = ExtResource("2_d4na5")
 gift_name = "Pet Rock"
-selection_name = "petrock"
 gift_type = ""
 gift_image = ExtResource("1_prfcw")
 metadata/_custom_type_script = "uid://blstnqwtri557"

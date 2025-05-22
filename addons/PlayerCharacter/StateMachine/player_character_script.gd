@@ -106,6 +106,11 @@ func _ready():
 	nb_jumps_in_air_allowed_ref = nb_jumps_in_air_allowed
 	coyote_jump_cooldown_ref = coyote_jump_cooldown
 	
+	Globals.player = self 
+
+	Dialogic.timeline_ended.connect(func():
+		if cur_interacting: cur_interacting.stop_interact()
+	)
 	Dialogic.signal_event.connect(func(givegift:String):
 		var gift_to_add: Resource
 		for gift in GIFTS_LIST:
@@ -206,25 +211,26 @@ func raycast_process():
 	
 	pre_interacting = cur_interacting
 
-	
-	
+
 func _input(event) -> void:
 	if not cur_interacting or not cur_interacting.is_in_group("interactable"): return
-
+	if Dialogic.current_timeline != null: #if dialogue running, cant re-interact
+		return
+		
 	if event.is_action("interact"):
 		var tween: Tween = get_tree().create_tween() \
 			.set_parallel(true) \
 			.set_trans(Tween.TRANS_QUART) \
 			.set_ease(Tween.EASE_IN_OUT)
 
-		if not cur_interacting.is_interacting:
-			tween.tween_property(self, "global_position", cur_interacting.interact_move_to, 0.6).set_trans(tween_transition)
-			#tween.tween_property(self, "global_rotation", cur_interacting.interact_rotate_to, 0.6).set_trans(tween_transition)
-			cur_interacting.do_interact()
-			movement_enabled = false
-		else:
-			movement_enabled = true
-	elif cur_interacting.is_interacting && (event.is_action("move_right") or event.is_action("move_left") or event.is_action("move_forward") or event.is_action("move_backward")):
-		pass
+
+
+		#if Dialogue.VAR.npc1
+		tween.tween_property(self, "global_position", cur_interacting.interact_move_to, 0.6).set_trans(tween_transition)
+		#tween.tween_property(self, "global_rotation", cur_interacting.interact_rotate_to, 0.6).set_trans(tween_transition)
+		cur_interacting.do_interact()
+		movement_enabled = false
+	#elif cur_interacting.is_interacting && (event.is_action("move_right") or event.is_action("move_left") or event.is_action("move_forward") or event.is_action("move_backward")):
+		#pass
 		# movement_enabled = true
 		# cur_interacting.stop_interact()

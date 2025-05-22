@@ -6,7 +6,10 @@ extends CharacterBody3D
 @onready var interact_move_to:Vector3 = %MoveToLocation.get_global_position()
 @onready var interact_rotate_to:Vector3 = %MoveToLocation.get_global_rotation()
 @onready var interact_dialogue: Sprite3D = %InteractDialogue
-@onready var is_interacting:bool = false
+#@onready var is_interacting:bool = false
+
+func _ready() -> void:
+	add_to_group("npc")
 
 func do_colliding():
 	interact_dialogue.show()
@@ -18,8 +21,9 @@ func do_interact():
 	if Dialogic.current_timeline != null:
 		return
 	
-	is_interacting = true
+	#is_interacting = true
 	Dialogic.start("res://World/NPCs/npc1/dialogue/timeline1.dtl")
 	get_viewport().set_input_as_handled()
 func stop_interact():
-	is_interacting = false
+	pass
+	#is_interacting = false
