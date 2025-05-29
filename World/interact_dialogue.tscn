@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cur37ojlpje4v"]
+
+[ext_resource type="Texture2D" uid="uid://dq3ymp887isyr" path="res://switch_buttons_left_outline.png" id="1_ym3x6"]
+
+[node name="InteractDialogue" type="Sprite3D"]
+visible = false
+billboard = 1
+no_depth_test = true
+texture = ExtResource("1_ym3x6")

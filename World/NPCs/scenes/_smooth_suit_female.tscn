@@ -1,0 +1,79 @@
+[gd_scene load_steps=11 format=3 uid="uid://vqtnq5rv4eba"]
+
+[ext_resource type="PackedScene" uid="uid://d34rf6ir0p6qr" path="res://World/NPCs/assets/blends/_smooth_Suit_Female.blend" id="1_jc006"]
+[ext_resource type="Material" uid="uid://natlnuii7iu4" path="res://World/NPCs/materials/skin_choc.tres" id="2_gxd4q"]
+[ext_resource type="Material" uid="uid://bppl87ym2q18m" path="res://World/NPCs/materials/black.tres" id="3_7af8u"]
+[ext_resource type="Material" uid="uid://8igqy22vnm30" path="res://World/NPCs/materials/belt.tres" id="4_avnfy"]
+[ext_resource type="Material" uid="uid://drkganad82xvv" path="res://World/NPCs/materials/white.tres" id="5_n1leu"]
+[ext_resource type="Material" uid="uid://dmbid08wglu3t" path="res://World/NPCs/materials/brown.tres" id="6_het1f"]
+[ext_resource type="Script" uid="uid://81hse5nagsf7" path="res://World/NPCs/npc.gd" id="7_ep45c"]
+[ext_resource type="Resource" uid="uid://e64iaysgwcth" path="res://World/NPCs/npc1/dialogue/timeline1.dtl" id="8_pbvtv"]
+[ext_resource type="PackedScene" uid="uid://cur37ojlpje4v" path="res://World/interact_dialogue.tscn" id="9_pbvtv"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_het1f"]
+height = 3.0
+
+[node name="_smooth_Suit_Female" instance=ExtResource("1_jc006")]
+
+[node name="Skeleton3D" parent="CharacterArmature" index="0"]
+bones/1/position = Vector3(0.265425, 0.0246629, -0.0450554)
+bones/1/rotation = Quaternion(5.19753e-06, 0.702952, 0.711237, 5.33237e-06)
+bones/2/position = Vector3(0.00327832, 0.971835, 0.0763002)
+bones/2/rotation = Quaternion(-0.000401451, 0.00210706, 1.9263e-05, 0.999998)
+bones/3/position = Vector3(-0.00147993, -0.066775, -0.0462423)
+bones/3/rotation = Quaternion(-0.0507688, -2.6743e-07, -2.27603e-08, 0.99871)
+bones/4/rotation = Quaternion(0.0746338, 4.37025e-07, 4.61338e-08, 0.997211)
+bones/5/rotation = Quaternion(-0.00683997, -8.32433e-07, -1.5295e-09, 0.999977)
+bones/6/rotation = Quaternion(-0.0359226, 2.11116e-05, 0.000118774, 0.999355)
+bones/7/rotation = Quaternion(-3.72529e-09, -0.000275476, 1.55781e-11, 1)
+bones/8/position = Vector3(0.140417, 0.140335, 0.0135862)
+bones/9/rotation = Quaternion(-0.427288, -0.230488, -0.72847, 0.483355)
+bones/10/rotation = Quaternion(-0.0380439, 0.224584, -0.127958, 0.965268)
+bones/11/rotation = Quaternion(0.0116921, 0.121411, -0.00882442, 0.992494)
+bones/12/position = Vector3(-0.145766, 0.139867, 0.0135342)
+bones/13/rotation = Quaternion(-0.427288, 0.230488, 0.72847, 0.483355)
+bones/14/rotation = Quaternion(-0.0380438, -0.224584, 0.127958, 0.965268)
+bones/15/rotation = Quaternion(0.0113776, -0.15604, 0.00957493, 0.987639)
+bones/16/position = Vector3(0.253029, -0.0167023, -0.0559238)
+bones/16/rotation = Quaternion(0.990566, 0.00937554, 0.0014921, 0.13671)
+bones/16/scale = Vector3(0.999998, 0.999997, 0.99995)
+bones/17/rotation = Quaternion(0.309879, 0.00333923, 0.00924551, 0.950725)
+bones/17/scale = Vector3(1, 1.00001, 1.00001)
+bones/18/position = Vector3(-0.254712, -0.0167023, -0.0559241)
+bones/18/rotation = Quaternion(0.990755, -0.0111591, 0.00333312, 0.135162)
+bones/18/scale = Vector3(0.999998, 0.999997, 0.999951)
+bones/19/rotation = Quaternion(0.309412, -0.00333465, -0.00924715, 0.950877)
+bones/19/scale = Vector3(1, 1.00001, 1.00001)
+bones/20/position = Vector3(0.261994, 0.724533, 0.963147)
+bones/20/rotation = Quaternion(-3.55269e-15, 1.19209e-07, -8.47034e-22, 1)
+bones/21/position = Vector3(-0.262802, 0.0246629, -0.0450557)
+bones/21/rotation = Quaternion(-5.64915e-06, 0.702952, 0.711237, -4.99718e-06)
+bones/22/position = Vector3(-0.259372, 0.724533, 0.963147)
+bones/22/rotation = Quaternion(-3.55273e-15, -5.96046e-07, 3.38813e-21, 1)
+
+[node name="Body" parent="CharacterArmature/Skeleton3D" index="0"]
+surface_material_override/0 = ExtResource("2_gxd4q")
+surface_material_override/1 = ExtResource("3_7af8u")
+surface_material_override/2 = ExtResource("4_avnfy")
+surface_material_override/3 = ExtResource("5_n1leu")
+surface_material_override/6 = ExtResource("6_het1f")
+
+[node name="extras" type="Node3D" parent="." index="2"]
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="extras" index="0" node_paths=PackedStringArray("animations") groups=["interactable"]]
+script = ExtResource("7_ep45c")
+animations = NodePath("../../AnimationPlayer")
+dialogue = ExtResource("8_pbvtv")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="extras/CharacterBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+visible = false
+shape = SubResource("CapsuleShape3D_het1f")
+
+[node name="InteractDialogue" parent="extras" index="1" instance=ExtResource("9_pbvtv")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00909, 0)
+
+[node name="MoveToLocation" type="Node3D" parent="extras" index="2"]
+unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 2)
