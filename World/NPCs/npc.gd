@@ -3,8 +3,11 @@ extends CharacterBody3D
 @export var npc_name: String = ""
 @export var animations:AnimationPlayer
 @export var dialogue:DialogicTimeline 
+@export var dialogue_char:DialogicCharacter
+
 
 @onready var npc_pcam:PhantomCamera3D = %NPCPhantomCamera3D
+@onready var pic_view:SubViewport = %pic_view
 @onready var interact_move_to:Vector3
 @onready var interact_rotate_to:Vector3 
 @onready var interact_dialogue:Sprite3D = %InteractDialogue
@@ -14,11 +17,11 @@ extends CharacterBody3D
 
 func _ready() -> void:
 	add_to_group("npc")
+	add_to_group("interactable")
 	
 	var anim : Animation= animations.get_animation("Idle")
 	anim.loop_mode = Animation.LOOP_PINGPONG
 	animations.play(anim.resource_name)
-	
 	
 	if %MoveToLocation: 
 		interact_move_to = %MoveToLocation.get_global_position()
@@ -39,6 +42,11 @@ func stop_colliding():
 
 func do_interact():
 		# check if a dialog is already running 
+	var filename = "res://World/NPCs/assets/profpics/npcpic-" + npc_name + ".png"
+	if !FileAccess.file_exists(filename):
+		pic_view.get_texture().get_data().save_png(filename)
+		dialogue_char.portraits["neutral"].export_overrides.image = filename
+	
 	if Dialogic.current_timeline != null || !dialogue:
 		return
 	

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://vqtnq5rv4eba"]
+[gd_scene load_steps=11 format=3 uid="uid://vqtnq5rv4eba"]
 
 [ext_resource type="PackedScene" uid="uid://d34rf6ir0p6qr" path="res://World/NPCs/assets/blends/_smooth_Suit_Female.blend" id="1_jc006"]
 [ext_resource type="Material" uid="uid://natlnuii7iu4" path="res://World/NPCs/materials/skin_choc.tres" id="2_gxd4q"]
@@ -7,17 +7,11 @@
 [ext_resource type="Material" uid="uid://drkganad82xvv" path="res://World/NPCs/materials/white.tres" id="5_n1leu"]
 [ext_resource type="Material" uid="uid://dmbid08wglu3t" path="res://World/NPCs/materials/brown.tres" id="6_het1f"]
 [ext_resource type="Script" uid="uid://81hse5nagsf7" path="res://World/NPCs/npc.gd" id="7_ep45c"]
-[ext_resource type="Resource" uid="uid://dsj1o0u24yvh6" path="res://World/NPCs/npc1/npc1.dch" id="8_88mrb"]
 [ext_resource type="Resource" uid="uid://e64iaysgwcth" path="res://World/NPCs/npc1/dialogue/timeline1.dtl" id="8_pbvtv"]
 [ext_resource type="PackedScene" uid="uid://cur37ojlpje4v" path="res://World/interact_dialogue.tscn" id="9_pbvtv"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_het1f"]
 height = 3.0
-
-[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_3kj84"]
-dof_blur_far_enabled = true
-dof_blur_far_distance = 0.01
-dof_blur_amount = 1.0
 
 [node name="_smooth_Suit_Female" instance=ExtResource("1_jc006")]
 
@@ -66,12 +60,11 @@ surface_material_override/6 = ExtResource("6_het1f")
 
 [node name="extras" type="Node3D" parent="." index="2"]
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="extras" index="0" node_paths=PackedStringArray("animations")]
+[node name="CharacterBody3D" type="CharacterBody3D" parent="extras" index="0" node_paths=PackedStringArray("animations") groups=["interactable"]]
 script = ExtResource("7_ep45c")
-npc_name = "Stacenie"
+npc_name = null
 animations = NodePath("../../AnimationPlayer")
 dialogue = ExtResource("8_pbvtv")
-dialogue_char = ExtResource("8_88mrb")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="extras/CharacterBody3D" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
@@ -90,7 +83,6 @@ unique_name_in_owner = true
 size = Vector2i(800, 800)
 
 [node name="Piccam" type="Camera3D" parent="pic_view" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.49734, 0.903301)
-attributes = SubResource("CameraAttributesPractical_3kj84")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.49734, 1.37962)
 projection = 1
 size = 1.24

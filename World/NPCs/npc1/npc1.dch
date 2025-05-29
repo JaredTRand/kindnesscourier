@@ -17,7 +17,7 @@
 &"portraits": {
 "neutral": {
 "export_overrides": {
-"image": "\"res://World/NPCs/npc1/portrait_neutral.png\""
+"image": "\"res://World/NPCs/npc1/npc1.png\""
 },
 "mirror": false,
 "offset": Vector2(0, 0),
