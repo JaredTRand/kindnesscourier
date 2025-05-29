@@ -43,9 +43,12 @@ func stop_colliding():
 func do_interact():
 		# check if a dialog is already running 
 	var filename = "res://World/NPCs/assets/profpics/npcpic-" + npc_name + ".png"
-	if !FileAccess.file_exists(filename):
-		pic_view.get_texture().get_data().save_png(filename)
-		dialogue_char.portraits["neutral"].export_overrides.image = filename
+	
+	pic_view.render_target_update_mode = pic_view.UPDATE_ONCE
+	await RenderingServer.frame_post_draw
+	
+	get_viewport().get_texture().get_image().save_png(filename)
+	dialogue_char.portraits["neutral"].export_overrides.image = filename
 	
 	if Dialogic.current_timeline != null || !dialogue:
 		return
