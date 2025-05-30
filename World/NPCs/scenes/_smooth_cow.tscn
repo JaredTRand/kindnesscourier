@@ -1,0 +1,58 @@
+[gd_scene load_steps=11 format=3 uid="uid://b2orhqdsk7atv"]
+
+[ext_resource type="PackedScene" uid="uid://cm8s4rikjuhnk" path="res://World/NPCs/assets/blends/_smooth_Cow.blend" id="1_5t5yp"]
+[ext_resource type="Script" uid="uid://81hse5nagsf7" path="res://World/NPCs/npc.gd" id="2_8b2rf"]
+[ext_resource type="Material" uid="uid://bppl87ym2q18m" path="res://World/NPCs/materials/black.tres" id="2_46eak"]
+[ext_resource type="Resource" uid="uid://e64iaysgwcth" path="res://World/NPCs/npc1/dialogue/timeline1.dtl" id="3_a32xs"]
+[ext_resource type="Material" uid="uid://8igqy22vnm30" path="res://World/NPCs/materials/belt.tres" id="3_ue5cp"]
+[ext_resource type="Resource" uid="uid://dsj1o0u24yvh6" path="res://World/NPCs/npc1/npc1.dch" id="4_2hkv3"]
+[ext_resource type="Material" uid="uid://drkganad82xvv" path="res://World/NPCs/materials/white.tres" id="4_i3qkm"]
+[ext_resource type="PackedScene" uid="uid://cur37ojlpje4v" path="res://World/interact_dialogue.tscn" id="5_46eak"]
+[ext_resource type="Material" uid="uid://df2bcfswov5eb" path="res://World/NPCs/materials/lightishpink.tres" id="5_ue5cp"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ue5cp"]
+height = 3.0
+
+[node name="_smooth_Cow" instance=ExtResource("1_5t5yp")]
+
+[node name="Body" parent="CharacterArmature/Skeleton3D" index="0"]
+surface_material_override/0 = ExtResource("2_46eak")
+surface_material_override/1 = ExtResource("2_46eak")
+surface_material_override/2 = ExtResource("3_ue5cp")
+surface_material_override/3 = ExtResource("4_i3qkm")
+surface_material_override/4 = ExtResource("3_ue5cp")
+surface_material_override/5 = ExtResource("4_i3qkm")
+surface_material_override/6 = ExtResource("4_i3qkm")
+surface_material_override/7 = ExtResource("2_46eak")
+surface_material_override/8 = ExtResource("5_ue5cp")
+
+[node name="extras" type="Node3D" parent="." index="2"]
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="extras" index="0" node_paths=PackedStringArray("animations")]
+script = ExtResource("2_8b2rf")
+npc_name = "Stacenie"
+animations = NodePath("")
+dialogue = ExtResource("3_a32xs")
+dialogue_char = ExtResource("4_2hkv3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="extras/CharacterBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+visible = false
+shape = SubResource("CapsuleShape3D_ue5cp")
+
+[node name="InteractDialogue" parent="extras" index="1" instance=ExtResource("5_46eak")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00909, 0)
+
+[node name="MoveToLocation" type="Node3D" parent="extras" index="2"]
+unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 2)
+
+[node name="pic_view" type="SubViewport" parent="extras" index="3"]
+unique_name_in_owner = true
+handle_input_locally = false
+size = Vector2i(800, 800)
+
+[node name="piccam" type="Camera3D" parent="extras/pic_view" index="0"]
+unique_name_in_owner = true
+size = 1.25

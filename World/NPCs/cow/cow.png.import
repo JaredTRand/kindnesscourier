@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://hyd43k5wlynw"
-path="res://.godot/imported/npcpic-Stacenie.png-618c0d3e8f0b48902a74cb825cc1076b.ctex"
+uid="uid://bfvmt3nppbipm"
+path="res://.godot/imported/cow.png-9b086d2548d0b7b45cc3ddcd1b07701a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://World/NPCs/assets/profpics/npcpic-Stacenie.png"
-dest_files=["res://.godot/imported/npcpic-Stacenie.png-618c0d3e8f0b48902a74cb825cc1076b.ctex"]
+source_file="res://World/NPCs/cow/cow.png"
+dest_files=["res://.godot/imported/cow.png-9b086d2548d0b7b45cc3ddcd1b07701a.ctex"]
 
 [params]
 
