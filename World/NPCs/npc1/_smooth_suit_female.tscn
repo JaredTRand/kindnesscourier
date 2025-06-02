@@ -1,15 +1,17 @@
-[gd_scene load_steps=12 format=3 uid="uid://vqtnq5rv4eba"]
+[gd_scene load_steps=14 format=3 uid="uid://vqtnq5rv4eba"]
 
 [ext_resource type="PackedScene" uid="uid://d34rf6ir0p6qr" path="res://World/NPCs/assets/blends/_smooth_Suit_Female.blend" id="1_jc006"]
-[ext_resource type="Material" uid="uid://natlnuii7iu4" path="res://World/NPCs/materials/skin_choc.tres" id="2_gxd4q"]
-[ext_resource type="Material" uid="uid://bppl87ym2q18m" path="res://World/NPCs/materials/black.tres" id="3_7af8u"]
-[ext_resource type="Material" uid="uid://8igqy22vnm30" path="res://World/NPCs/materials/belt.tres" id="4_avnfy"]
-[ext_resource type="Material" uid="uid://drkganad82xvv" path="res://World/NPCs/materials/white.tres" id="5_n1leu"]
-[ext_resource type="Material" uid="uid://dmbid08wglu3t" path="res://World/NPCs/materials/brown.tres" id="6_het1f"]
+[ext_resource type="Material" uid="uid://natlnuii7iu4" path="res://World/NPCs/assets/materials/skin_choc.tres" id="2_gxd4q"]
+[ext_resource type="Material" uid="uid://bppl87ym2q18m" path="res://World/NPCs/assets/materials/black.tres" id="3_7af8u"]
+[ext_resource type="Material" uid="uid://8igqy22vnm30" path="res://World/NPCs/assets/materials/belt.tres" id="4_avnfy"]
+[ext_resource type="Material" uid="uid://drkganad82xvv" path="res://World/NPCs/assets/materials/white.tres" id="5_n1leu"]
+[ext_resource type="Material" uid="uid://dmbid08wglu3t" path="res://World/NPCs/assets/materials/brown.tres" id="6_het1f"]
 [ext_resource type="Script" uid="uid://81hse5nagsf7" path="res://World/NPCs/npc.gd" id="7_ep45c"]
 [ext_resource type="Resource" uid="uid://dsj1o0u24yvh6" path="res://World/NPCs/npc1/npc1.dch" id="8_88mrb"]
 [ext_resource type="Resource" uid="uid://e64iaysgwcth" path="res://World/NPCs/npc1/dialogue/timeline1.dtl" id="8_pbvtv"]
 [ext_resource type="PackedScene" uid="uid://cur37ojlpje4v" path="res://World/interact_dialogue.tscn" id="9_pbvtv"]
+[ext_resource type="Resource" uid="uid://csh1sir8cmiyc" path="res://assets/gifts/allgifts/Steak.tres" id="10_nv2c8"]
+[ext_resource type="Resource" uid="uid://dgtf7cjnvpoun" path="res://assets/gifts/allgifts/PetRock.tres" id="11_rpfl4"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_het1f"]
 height = 3.0
@@ -67,6 +69,9 @@ npc_name = "Stacenie"
 animations = NodePath("../../AnimationPlayer")
 dialogue = ExtResource("8_pbvtv")
 dialogue_char = ExtResource("8_88mrb")
+dialogic_var_id = "npc1"
+acceptable_gift = ExtResource("10_nv2c8")
+gift_to_give = ExtResource("11_rpfl4")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="extras/CharacterBody3D" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)

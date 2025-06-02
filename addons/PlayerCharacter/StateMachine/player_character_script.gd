@@ -81,7 +81,6 @@ var coyote_jump_on : bool = false
 
 @onready var INVENTORY = []
 @export_category("Jared's Extras")
-@onready var GIFTS_LIST: Array
 
 
 #particles variables
@@ -111,15 +110,6 @@ func _ready():
 	Dialogic.timeline_ended.connect(func():
 		if cur_interacting: cur_interacting.stop_interact()
 	)
-	Dialogic.signal_event.connect(func(givegift:String):
-		var gift_to_add: Resource
-		for gift in GIFTS_LIST:
-			if gift.gift_name == givegift:
-				gift_to_add = gift
-				break
-		
-		if gift_to_add: INVENTORY.append(gift_to_add)
-	)
 	
 	#set char model audios effects
 	godot_plush_skin.footstep.connect(func(intensity : float = 1.0):
@@ -127,13 +117,6 @@ func _ready():
 		foot_step_audio.play()
 	)
 		
-	#Load list of gifts on start
-	for filePath in DirAccess.get_files_at("res://assets/gifts/allgifts/"):
-		if filePath.get_extension() == "tres":  
-			GIFTS_LIST.append( load("res://assets/gifts/allgifts/" + filePath) 
-	)
-			
-			
 func _process(delta: float):
 	modify_model_orientation(delta)
 	display_properties()

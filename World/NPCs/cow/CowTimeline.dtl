@@ -1,25 +1,49 @@
 if {cow.first_interaction} == false:
-	set {cow.first_interaction} = true
-	cow: *Sigh*
-	cow: I'm lonely.
-	cow: I wish I had a friend.
-	
-elif cow.gift_from_player:
-	cow: Thank you. I'll never forget this
-	
+	jump firstInteraction
+elif {cow.gift_from_player}:
+	jump receivedPlayerGiftandGivenPlayerGift
 elif Globals.player_has_gift( {cow.acceptable_gift} ) == true:
-	cow: What's this?
-	cow: You brought me a friend?
-	cow: *sniff*
-	cow: Thank you!
-	do Globals.inc_happiness(10)
-	set {cow.gift_from_player} = true
-	Globals.player_remove_gift( {cow.acceptable_gift} )
-
-elif {cow.gift_to_player} == true:
-	cow: I hope you appreciate it more than I did.
-	
+	jump receivingPlayerGift
 else:
-	cow: I wish I had a friend...
-	
+	jump secondInteractionNoGift
+[end_timeline]
+
+
+
+
+label firstInteraction
+set {cow.first_interaction} = true
+cow: *Sigh*
+cow: I'm lonely.
+cow: I wish I had a friend.
+[end_timeline]
+
+label secondInteractionNoGift
+cow: I wish I had a friend...
+[end_timeline]
+
+label receivedPlayerGiftandGivenPlayerGift
+cow: Thank you. I'll never forget this
+[end_timeline]
+
+label receivingPlayerGift
+cow: What's this?
+cow: You brought me a friend?
+cow: *sniff*
+cow: Thank you!
+do Globals.inc_happiness(5)
+set {cow.gift_from_player} = true
+do Globals.player_remove_gift({cow.acceptable_gift})
+
+jump givePlayerGift
+[end_timeline]
+
+label givePlayerGift
+cow: I don't have much to offer, but here.
+cow: I hope you can use this.
+do Globals.player_gain_gift({cow.gift_to_give})
+set {cow.gift_to_player} = true
+[end_timeline]
+
+
 [end_timeline]

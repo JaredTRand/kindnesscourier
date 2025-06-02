@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bwuj8e6qbl7fh"]
+
+[ext_resource type="PackedScene" uid="uid://cod4h7u2ios4t" path="res://World/NPCs/assets/base.tscn" id="1_nuh3y"]
+[ext_resource type="PackedScene" uid="uid://cm8s4rikjuhnk" path="res://World/NPCs/assets/blends/_smooth_Cow.blend" id="2_6kval"]
+
+[node name="Base" instance=ExtResource("1_nuh3y")]
+
+[node name="_smooth_Cow" parent="." index="0" instance=ExtResource("2_6kval")]
+
+[node name="CharacterBody3D" parent="extras" index="0"]
+npc_name = "Moorine"

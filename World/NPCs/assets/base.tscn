@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://cod4h7u2ios4t"]
+
+[ext_resource type="Script" uid="uid://81hse5nagsf7" path="res://World/NPCs/npc.gd" id="1_ohhpf"]
+[ext_resource type="Resource" uid="uid://wuwn0hm3lm4x" path="res://World/NPCs/cow/CowTimeline.dtl" id="2_21bcp"]
+[ext_resource type="Resource" uid="uid://dan427dbk64le" path="res://World/NPCs/cow/cow.dch" id="3_tpea4"]
+[ext_resource type="PackedScene" uid="uid://cur37ojlpje4v" path="res://World/interact_dialogue.tscn" id="4_42dj3"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_56f15"]
+height = 3.0
+
+[node name="Base" type="Node3D"]
+
+[node name="extras" type="Node3D" parent="."]
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="extras"]
+script = ExtResource("1_ohhpf")
+npc_name = "Oogle The Old"
+dialogue = ExtResource("2_21bcp")
+dialogue_char = ExtResource("3_tpea4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="extras/CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+visible = false
+shape = SubResource("CapsuleShape3D_56f15")
+
+[node name="InteractDialogue" parent="extras" instance=ExtResource("4_42dj3")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00909, 0)
+
+[node name="MoveToLocation" type="Node3D" parent="extras"]
+unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 2)
+
+[node name="pic_view" type="SubViewport" parent="extras"]
+unique_name_in_owner = true
+handle_input_locally = false
+size = Vector2i(800, 800)
+
+[node name="piccam" type="Camera3D" parent="extras/pic_view"]
+unique_name_in_owner = true
+size = 1.25

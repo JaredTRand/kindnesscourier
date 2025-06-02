@@ -1,11 +1,11 @@
-[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://8igqy22vnm30"]
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://drkganad82xvv"]
 
-[ext_resource type="Shader" uid="uid://b6fg4dcq843g0" path="res://World/NPCs/materials/toon.gdshader" id="1_bybe2"]
+[ext_resource type="Shader" uid="uid://b6fg4dcq843g0" path="res://World/NPCs/assets/materials/toon.gdshader" id="1_uydem"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hveom"]
 render_priority = 0
-shader = ExtResource("1_bybe2")
-shader_parameter/albedo = Color(0.501961, 0.501961, 0.501961, 1)
+shader = ExtResource("1_uydem")
+shader_parameter/albedo = Color(0.984106, 0.984106, 0.984106, 1)
 shader_parameter/clamp_diffuse_to_max = true
 shader_parameter/cuts = 2
 shader_parameter/wrap = 0.0

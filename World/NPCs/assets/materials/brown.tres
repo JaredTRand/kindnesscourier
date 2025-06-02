@@ -1,6 +1,6 @@
 [gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://dmbid08wglu3t"]
 
-[ext_resource type="Shader" uid="uid://b6fg4dcq843g0" path="res://World/NPCs/materials/toon.gdshader" id="1_ucbpy"]
+[ext_resource type="Shader" uid="uid://b6fg4dcq843g0" path="res://World/NPCs/assets/materials/toon.gdshader" id="1_ucbpy"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hveom"]
 render_priority = 0

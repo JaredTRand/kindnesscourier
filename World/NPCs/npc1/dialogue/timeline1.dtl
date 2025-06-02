@@ -1,16 +1,39 @@
-if {npc1.first_interaction} == false:
+if {npc1.first_interaction} == false: 
+	jump firstInteraction
+elif Globals.player_has_gift( {npc1.acceptable_gift} ) == true:
+	jump receivingPlayerGift
+elif {npc1.gift_to_player} == true:
+	npc1: I hope you appreciate it more than I did.
+[end_timeline]
+	
+	
+label firstInteraction
 	set {npc1.first_interaction} = true
 	join  center
 	npc1: Hi friend
-	npc1: Take this!
-	[signal arg="Pet Rock"]
-	set {npc1.gift_to_player} = true
-	[background arg="res://assets/gifts/pics/petrock.png" fade="0.5" transition="Swipe Left To Right"]
-	npc1: Give this to someone who needs it.
-elif Globals.player_has_gift( {npc1.acceptable_gift} ) == true:
-	npc1: wow thank you
-	do Globals.inc_happiness(10)
-
-elif {npc1.gift_to_player} == true:
-	npc1: I hope you appreciate it more than I did.
+	jump givePlayerGift
 	[end_timeline]
+	
+label secondInteractionNoGift
+	[end_timeline]
+	
+label receivedPlayerGiftandGivenPlayerGift
+	npc1: Time for a nice dinner.
+	[end_timeline]
+
+label receivingPlayerGift
+	npc1: wow thank you
+	
+	do Globals.inc_happiness(5)
+	do Globals.player_remove_gift( {npc1.acceptable_gift} )
+	[end_timeline]
+	
+label givePlayerGift
+	npc1: Take this!
+	do Globals.player_gain_gift({npc1.gift_to_give})
+	set {npc1.gift_to_player} = true
+	npc1: Give this to someone who needs it.
+	[end_timeline]
+	
+	
+[end_timeline]

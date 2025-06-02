@@ -1,0 +1,93 @@
+[gd_scene load_steps=13 format=3 uid="uid://b0q73ym0lyyqv"]
+
+[ext_resource type="PackedScene" uid="uid://d043ewrj30gk4" path="res://World/NPCs/wizard/_smooth_Wizard.blend" id="1_4efgh"]
+[ext_resource type="Material" uid="uid://dmbid08wglu3t" path="res://World/NPCs/assets/materials/brown.tres" id="2_kv76i"]
+[ext_resource type="Script" uid="uid://81hse5nagsf7" path="res://World/NPCs/npc.gd" id="2_ouhj1"]
+[ext_resource type="Material" uid="uid://b4dnmyrioyj2y" path="res://World/NPCs/assets/materials/blue.tres" id="3_v0303"]
+[ext_resource type="Material" uid="uid://8igqy22vnm30" path="res://World/NPCs/assets/materials/belt.tres" id="4_0lrco"]
+[ext_resource type="Resource" uid="uid://wuwn0hm3lm4x" path="res://World/NPCs/cow/CowTimeline.dtl" id="4_v0303"]
+[ext_resource type="Resource" uid="uid://dan427dbk64le" path="res://World/NPCs/cow/cow.dch" id="5_0lrco"]
+[ext_resource type="Material" uid="uid://bdv8ukxxvekvb" path="res://World/NPCs/assets/materials/gold.tres" id="5_6mk14"]
+[ext_resource type="PackedScene" uid="uid://cur37ojlpje4v" path="res://World/interact_dialogue.tscn" id="6_6mk14"]
+[ext_resource type="Material" uid="uid://c4laio5ax7tw8" path="res://World/NPCs/assets/materials/purplegrayish.tres" id="6_rhp3g"]
+[ext_resource type="Material" uid="uid://drkganad82xvv" path="res://World/NPCs/assets/materials/white.tres" id="7_rhp3g"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_rhp3g"]
+height = 3.0
+
+[node name="_smooth_Wizard" instance=ExtResource("1_4efgh")]
+
+[node name="Skeleton3D" parent="CharacterArmature" index="0"]
+bones/1/position = Vector3(0.265425, 0.0402497, -0.105272)
+bones/1/rotation = Quaternion(5.75226e-06, 0.58639, 0.810029, 4.56215e-06)
+bones/2/position = Vector3(-0.0020478, 0.95829, 0.108561)
+bones/2/rotation = Quaternion(-0.00536543, 0.016223, 0.00202984, 0.999852)
+bones/3/position = Vector3(-0.00147993, -0.0667749, -0.0462423)
+bones/3/rotation = Quaternion(-0.0507688, -2.66154e-07, -2.26949e-08, 0.99871)
+bones/4/rotation = Quaternion(0.0746338, 4.37233e-07, 4.5919e-08, 0.997211)
+bones/5/rotation = Quaternion(0.043372, 0.00551356, -0.00609046, 0.999025)
+bones/6/rotation = Quaternion(-0.0314315, -0.000739506, 0.000339873, 0.999506)
+bones/7/rotation = Quaternion(-0.106113, -0.00155503, 0.00233565, 0.99435)
+bones/8/position = Vector3(0.126103, 0.141339, 0.0134577)
+bones/9/rotation = Quaternion(-0.531709, -0.342437, -0.588183, 0.504047)
+bones/10/rotation = Quaternion(-0.164686, -0.0606426, -0.261298, 0.94917)
+bones/11/rotation = Quaternion(0.0125379, 0.0181952, -0.00654309, 0.999735)
+bones/12/position = Vector3(-0.124826, 0.141339, 0.0134578)
+bones/13/rotation = Quaternion(-0.572952, 0.335332, 0.584695, 0.466273)
+bones/14/rotation = Quaternion(-0.156455, -0.0408853, 0.0509821, 0.985521)
+bones/15/rotation = Quaternion(0.0125357, -0.0178633, 0.00654725, 0.99974)
+bones/16/position = Vector3(0.253029, -0.0167021, -0.0559237)
+bones/16/rotation = Quaternion(0.993435, 0.00888327, 0.0183139, 0.11257)
+bones/16/scale = Vector3(0.999998, 0.999995, 0.999952)
+bones/17/rotation = Quaternion(0.358139, 0.00380813, 0.00906246, 0.933617)
+bones/17/scale = Vector3(1, 1.00002, 1.00001)
+bones/18/position = Vector3(-0.254712, -0.0167022, -0.0559241)
+bones/18/rotation = Quaternion(0.990517, -0.0103614, 0.0137972, 0.136304)
+bones/18/scale = Vector3(0.999998, 0.999995, 0.999952)
+bones/19/rotation = Quaternion(0.376595, -0.00398716, -0.00898511, 0.926326)
+bones/19/scale = Vector3(1, 1.00002, 1.00001)
+bones/20/position = Vector3(0.261994, 0.125382, 1.95082)
+bones/20/rotation = Quaternion(-3.55269e-15, 1.19209e-07, -8.47034e-22, 1)
+bones/21/position = Vector3(-0.262802, 0.0417278, -0.063796)
+bones/21/rotation = Quaternion(-5.31634e-06, 0.67986, 0.733342, -5.34739e-06)
+bones/22/position = Vector3(-0.259374, 0.125382, 1.95082)
+bones/22/rotation = Quaternion(-3.55273e-15, -5.96046e-07, 3.38813e-21, 1)
+
+[node name="Body" parent="CharacterArmature/Skeleton3D" index="0"]
+surface_material_override/0 = ExtResource("2_kv76i")
+surface_material_override/1 = ExtResource("3_v0303")
+surface_material_override/2 = ExtResource("4_0lrco")
+surface_material_override/3 = ExtResource("5_6mk14")
+surface_material_override/4 = ExtResource("6_rhp3g")
+surface_material_override/5 = ExtResource("7_rhp3g")
+surface_material_override/6 = ExtResource("7_rhp3g")
+
+[node name="extras" type="Node3D" parent="." index="2"]
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="extras" index="0"]
+script = ExtResource("2_ouhj1")
+npc_name = "Oogle The Old"
+dialogue = ExtResource("4_v0303")
+dialogue_char = ExtResource("5_0lrco")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="extras/CharacterBody3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+visible = false
+shape = SubResource("CapsuleShape3D_rhp3g")
+
+[node name="InteractDialogue" parent="extras" index="1" instance=ExtResource("6_6mk14")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00909, 0)
+
+[node name="MoveToLocation" type="Node3D" parent="extras" index="2"]
+unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 2)
+
+[node name="pic_view" type="SubViewport" parent="extras" index="3"]
+unique_name_in_owner = true
+handle_input_locally = false
+size = Vector2i(800, 800)
+
+[node name="piccam" type="Camera3D" parent="extras/pic_view" index="0"]
+unique_name_in_owner = true
+size = 1.25

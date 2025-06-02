@@ -5,6 +5,9 @@ extends CharacterBody3D
 @export var animations:AnimationPlayer
 @export var dialogue:DialogicTimeline 
 @export var dialogue_char:DialogicCharacter
+@export var dialogic_var_id:String
+@export var acceptable_gift:Gift
+@export var gift_to_give:Gift
 
 
 #@onready var pic_view:SubViewport = %pic_view
@@ -27,20 +30,14 @@ func _ready() -> void:
 	if %MoveToLocation: 
 		interact_move_to = %MoveToLocation.get_global_position()
 		interact_rotate_to = %MoveToLocation.get_global_rotation()
-		#pic_cam.global_position = %MoveToLocation.get_global_position()
-		#pic_cam.global_rotation = %MoveToLocation.get_global_rotation()
-		#pic_cam.position = Vector3(pic_cam.position.x, pic_cam.position.y+2, pic_cam.position.z+2)
-		#pic_cam.rotate_y(-90)
 		
-	#else:
-		#var tempnode:Node3D = Node3D.new()
-		#tempnode.translate_object_local(Vector3(0,0,2))
-		#interact_move_to   = tempnode.get_global_position()
-		#interact_rotate_to = tempnode.get_global_rotation()
-		
-	#if !interact_dialogue: 
-		#interact_dialogue = my_scene.instantiate()
+	for dialogicfolder in Dialogic.VAR.folders():
+		if dialogicfolder.path == dialogic_var_id:
+			dialogicfolder.acceptable_gift = acceptable_gift.gift_name
+			dialogicfolder.gift_to_give = gift_to_give.gift_name
 	dialogue_char.display_name = npc_name
+	
+	#dialogue_char.portraits["default"]  = npc_pic
 
 func do_colliding():
 	interact_dialogue.show()
@@ -48,15 +45,7 @@ func stop_colliding():
 	interact_dialogue.hide()
 
 func do_interact():
-		# check if a dialog is already running 
-	var filename = "res://World/NPCs/assets/profpics/npcpic-" + npc_name + ".png"
-	
-	#pic_view.render_target_update_mode = SubViewport.UPDATE_ONCE
-	#await RenderingServer.frame_post_draw
-	##
-	#pic_view.get_texture().get_image().save_png(filename)
-	#dialogue_char.portraits["neutral"]  = filename
-	
+	# check if a dialog is already running 
 	if Dialogic.current_timeline != null || !dialogue:
 		return
 	
