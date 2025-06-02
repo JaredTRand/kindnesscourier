@@ -1,0 +1,16 @@
+if {npc1.first_interaction} == false:
+	set {npc1.first_interaction} = true
+	join  center
+	npc1: Hi friend
+	npc1: Take this!
+	[signal arg="Pet Rock"]
+	set {npc1.gift_to_player} = true
+	[background arg="res://assets/gifts/pics/petrock.png" fade="0.5" transition="Swipe Left To Right"]
+	npc1: Give this to someone who needs it.
+elif Globals.player_has_gift( {npc1.acceptable_gift} ) == true:
+	npc1: wow thank you
+	do Globals.inc_happiness(10)
+
+elif {npc1.gift_to_player} == true:
+	npc1: I hope you appreciate it more than I did.
+	[end_timeline]

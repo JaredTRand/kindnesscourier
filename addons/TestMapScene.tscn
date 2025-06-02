@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://db33ayyjox3p7"]
+[gd_scene load_steps=11 format=3 uid="uid://db33ayyjox3p7"]
 
 [ext_resource type="PackedScene" uid="uid://bgkmxyw21pc1m" path="res://addons/PlayerCharacter/PlayerCharacterScene.tscn" id="1_6f4by"]
 [ext_resource type="Material" uid="uid://coy4nf1ts2u0q" path="res://addons/Arts/Materials/grid_mat.tres" id="2_d8mrn"]
 [ext_resource type="PackedScene" uid="uid://dfhqivugjpb31" path="res://assets/Stylized Nature MegaKit[Standard]/scenes/tree.tscn" id="4_5lc62"]
-[ext_resource type="PackedScene" uid="uid://vqtnq5rv4eba" path="res://World/NPCs/scenes/_smooth_suit_female.tscn" id="4_fe2us"]
+[ext_resource type="PackedScene" uid="uid://vqtnq5rv4eba" path="res://World/NPCs/npc1/_smooth_suit_female.tscn" id="4_fe2us"]
+[ext_resource type="PackedScene" uid="uid://b2orhqdsk7atv" path="res://World/NPCs/cow/_smooth_cow.tscn" id="5_fe2us"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_6f4by"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -131,3 +132,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.1165, 6.33556, -21.4393)
 
 [node name="_smooth_Suit_Female" parent="." instance=ExtResource("4_fe2us")]
 transform = Transform3D(-0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, -0.5, -9.65094, 6.01859, -13.7809)
+
+[node name="_smooth_Cow" parent="." instance=ExtResource("5_fe2us")]
+transform = Transform3D(0.0724723, 0, -0.99737, 0, 1, 0, 0.99737, 0, 0.0724723, -0.159496, 6.01265, -14.2809)

@@ -33,6 +33,7 @@ directories/dch_directory={
 "npc1": "res://World/NPCs/npc1/npc1.dch"
 }
 directories/dtl_directory={
+"CowTimeline": "res://World/NPCs/cow/CowTimeline.dtl",
 "timeline1": "res://World/NPCs/npc1/dialogue/timeline1.dtl"
 }
 layout/style_list=["res://assets/dialogue/New_File.tres"]

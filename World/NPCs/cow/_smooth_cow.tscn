@@ -5,10 +5,10 @@
 [ext_resource type="Material" uid="uid://bppl87ym2q18m" path="res://World/NPCs/materials/black.tres" id="2_46eak"]
 [ext_resource type="Resource" uid="uid://e64iaysgwcth" path="res://World/NPCs/npc1/dialogue/timeline1.dtl" id="3_a32xs"]
 [ext_resource type="Material" uid="uid://8igqy22vnm30" path="res://World/NPCs/materials/belt.tres" id="3_ue5cp"]
-[ext_resource type="Resource" uid="uid://dsj1o0u24yvh6" path="res://World/NPCs/npc1/npc1.dch" id="4_2hkv3"]
 [ext_resource type="Material" uid="uid://drkganad82xvv" path="res://World/NPCs/materials/white.tres" id="4_i3qkm"]
 [ext_resource type="PackedScene" uid="uid://cur37ojlpje4v" path="res://World/interact_dialogue.tscn" id="5_46eak"]
 [ext_resource type="Material" uid="uid://df2bcfswov5eb" path="res://World/NPCs/materials/lightishpink.tres" id="5_ue5cp"]
+[ext_resource type="Resource" uid="uid://dan427dbk64le" path="res://World/NPCs/cow/cow.dch" id="8_15o2e"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ue5cp"]
 height = 3.0
@@ -28,12 +28,11 @@ surface_material_override/8 = ExtResource("5_ue5cp")
 
 [node name="extras" type="Node3D" parent="." index="2"]
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="extras" index="0" node_paths=PackedStringArray("animations")]
+[node name="CharacterBody3D" type="CharacterBody3D" parent="extras" index="0"]
 script = ExtResource("2_8b2rf")
 npc_name = "Stacenie"
-animations = NodePath("")
 dialogue = ExtResource("3_a32xs")
-dialogue_char = ExtResource("4_2hkv3")
+dialogue_char = ExtResource("8_15o2e")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="extras/CharacterBody3D" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
