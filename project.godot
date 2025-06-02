@@ -40,6 +40,12 @@ layout/style_list=["res://assets/dialogue/New_File.tres"]
 layout/default_style=""
 glossary/default_case_sensitive=true
 variables={
+"cow": {
+"acceptable_gift": "Pet Rock",
+"first_interaction": false,
+"gift_from_player": false,
+"gift_to_player": false
+},
 "npc1": {
 "acceptable_gift": "Pet Rock",
 "first_interaction": false,

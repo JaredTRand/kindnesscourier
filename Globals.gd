@@ -25,3 +25,9 @@ func player_has_gift(gift_to_check:String):
 		if gift.gift_name == gift_to_check:
 			return true
 	return false
+
+func player_remove_gift(gift_to_check:String):
+	for gift in player.INVENTORY:
+		if gift.gift_name == gift_to_check:
+			player.INVENTORY.remove_at( player.INVENTORY.find(gift) )
+	return false
