@@ -39,6 +39,7 @@ func player_remove_gift(gift_to_check:String):
 	for gift in player.INVENTORY:
 		if gift.gift_name == gift_to_check:
 			player.INVENTORY.remove_at( player.INVENTORY.find(gift) )
+			print(gift_to_check + " removed from inventory")
 	return false
 
 func player_gain_gift(gift_to_gain:String):

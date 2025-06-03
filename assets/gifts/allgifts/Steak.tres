@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="Gift" load_steps=3 format=3 uid="uid://csh1sir8cmiyc"]
 
-[ext_resource type="Texture2D" uid="uid://djmwrincwmsk8" path="res://assets/gifts/pics/petrock.png" id="1_a56vf"]
+[ext_resource type="Texture2D" uid="uid://4twkviwlt5uo" path="res://assets/gifts/pics/steak.png" id="1_a56vf"]
 [ext_resource type="Script" uid="uid://blstnqwtri557" path="res://assets/gifts/gift.gd" id="2_72g1p"]
 
 [resource]
