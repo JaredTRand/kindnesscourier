@@ -30,10 +30,14 @@ Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
 
 directories/dch_directory={
 "cow": "res://World/NPCs/cow/cow.dch",
-"npc1": "res://World/NPCs/npc1/npc1.dch"
+"jared": "res://jared.dch",
+"npc1": "res://World/NPCs/npc1/npc1.dch",
+"wizard": "res://World/NPCs/wizard/wizard.dch"
 }
 directories/dtl_directory={
+"BASEtimeline": "res://BASEtimeline.dtl",
 "CowTimeline": "res://World/NPCs/cow/CowTimeline.dtl",
+"Wizardtimeline": "res://World/NPCs/wizard/Wizardtimeline.dtl",
 "timeline1": "res://World/NPCs/npc1/dialogue/timeline1.dtl"
 }
 layout/style_list=["res://assets/dialogue/New_File.tres"]

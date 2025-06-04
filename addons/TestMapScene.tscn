@@ -1,10 +1,14 @@
-[gd_scene load_steps=11 format=3 uid="uid://db33ayyjox3p7"]
+[gd_scene load_steps=15 format=3 uid="uid://db33ayyjox3p7"]
 
 [ext_resource type="PackedScene" uid="uid://bgkmxyw21pc1m" path="res://addons/PlayerCharacter/PlayerCharacterScene.tscn" id="1_6f4by"]
 [ext_resource type="Material" uid="uid://coy4nf1ts2u0q" path="res://addons/Arts/Materials/grid_mat.tres" id="2_d8mrn"]
 [ext_resource type="PackedScene" uid="uid://dfhqivugjpb31" path="res://assets/Stylized Nature MegaKit[Standard]/scenes/tree.tscn" id="4_5lc62"]
 [ext_resource type="PackedScene" uid="uid://vqtnq5rv4eba" path="res://World/NPCs/npc1/_smooth_suit_female.tscn" id="4_fe2us"]
 [ext_resource type="PackedScene" uid="uid://b2orhqdsk7atv" path="res://World/NPCs/cow/_smooth_cow.tscn" id="5_fe2us"]
+[ext_resource type="PackedScene" uid="uid://cb6gcxh7rqfim" path="res://World/NPCs/wizard/wizard.tscn" id="6_guw0b"]
+[ext_resource type="PackedScene" uid="uid://kdf02hhbdiw7" path="res://World/NPCs/man_jared/jared.tscn" id="7_yffuu"]
+[ext_resource type="PackedScene" uid="uid://bn7wuup0ngd7e" path="res://World/NPCs/man_bald/baldman.tscn" id="8_qm1m0"]
+[ext_resource type="PackedScene" uid="uid://cxd8r6pfub02c" path="res://World/NPCs/female_1/female1.tscn" id="9_1xwdi"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_6f4by"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -135,3 +139,15 @@ transform = Transform3D(-0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, -0.5, -9.65094
 
 [node name="_smooth_Cow" parent="." instance=ExtResource("5_fe2us")]
 transform = Transform3D(0.0724723, 0, -0.99737, 0, 1, 0, 0.99737, 0, 0.0724723, -0.159496, 6.01265, -14.2809)
+
+[node name="Base" parent="." instance=ExtResource("6_guw0b")]
+transform = Transform3D(0.999636, 0, -0.026997, 0, 1, 0, 0.026997, 0, 0.999636, -5.73643, 6.01265, -20.8613)
+
+[node name="Base2" parent="." instance=ExtResource("7_yffuu")]
+transform = Transform3D(0.605975, 0, 0.795484, 0, 1, 0, -0.795484, 0, 0.605975, -10.6532, 6.01265, -20.6365)
+
+[node name="BaldMan" parent="." instance=ExtResource("8_qm1m0")]
+transform = Transform3D(0.979848, 0, -0.199744, 0, 1, 0, 0.199744, 0, 0.979848, -2.27388, 6.01265, -21.0451)
+
+[node name="Base3" parent="." instance=ExtResource("9_1xwdi")]
+transform = Transform3D(0.817577, 0, -0.575819, 0, 1, 0, 0.575819, 0, 0.817577, -0.316992, 6.01265, -20.05)

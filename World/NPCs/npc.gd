@@ -8,16 +8,14 @@ extends CharacterBody3D
 @export var dialogic_var_id:String
 @export var acceptable_gift:Gift
 @export var gift_to_give:Gift
+@export var happiness_inc_val:int
 
 
-#@onready var pic_view:SubViewport = %pic_view
-#@onready var pic_cam:Camera3D = %piccam
+
 @onready var interact_move_to:Vector3
 @onready var interact_rotate_to:Vector3 
 @onready var interact_dialogue:Sprite3D = %InteractDialogue
 
-#const my_scene: PackedScene = preload("res://World/interact_dialogue.tscn")
-#@onready var is_interacting:bool = false
 
 func _ready() -> void:
 	add_to_group("npc")
@@ -31,24 +29,19 @@ func _ready() -> void:
 		interact_move_to = %MoveToLocation.get_global_position()
 		interact_rotate_to = %MoveToLocation.get_global_rotation()
 		
-			#dialogicfolder.acceptable_gift = acceptable_gift.gift_name
-			#dialogicfolder.gift_to_give = gift_to_give.gift_name
 	var new_var_folderdata = 	{"acceptable_gift":acceptable_gift.gift_name,
 								"first_interaction": false,
 								"gift_from_player": false,
 								"gift_to_player": false,
-								"gift_to_give": gift_to_give.gift_name
+								"gift_to_give": gift_to_give.gift_name,
+								"happiness_inc_val": happiness_inc_val
 								}
-	#var new_dialogue_vars = Dialogic.VAR.VariableFolder.new(new_var_folderdata, dialogic_var_id, Dialogic.VAR)
+
 	var fullstate = Dialogic.get_full_state()
 	fullstate.variables[dialogic_var_id] = new_var_folderdata
 	Dialogic.load_full_state(fullstate)
 	
-	#Dialogic.VAR.folders().append(new_dialogue_vars)
 	dialogue_char.display_name = npc_name
-	for dialogicfolder in Dialogic.VAR.folders():
-		if dialogicfolder.path == dialogic_var_id:
-			pass
 	#dialogue_char.portraits["default"]  = npc_pic
 
 func do_colliding():

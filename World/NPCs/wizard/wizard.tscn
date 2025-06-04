@@ -1,23 +1,30 @@
-[gd_scene load_steps=13 format=3 uid="uid://b0q73ym0lyyqv"]
+[gd_scene load_steps=12 format=3 uid="uid://cb6gcxh7rqfim"]
 
 [ext_resource type="PackedScene" uid="uid://d043ewrj30gk4" path="res://World/NPCs/wizard/_smooth_Wizard.blend" id="1_4efgh"]
+[ext_resource type="PackedScene" uid="uid://cod4h7u2ios4t" path="res://World/NPCs/assets/base.tscn" id="1_fvmdn"]
+[ext_resource type="Resource" uid="uid://br5mdtxvwclnd" path="res://World/NPCs/wizard/wizard.dch" id="2_6mk14"]
 [ext_resource type="Material" uid="uid://dmbid08wglu3t" path="res://World/NPCs/assets/materials/brown.tres" id="2_kv76i"]
-[ext_resource type="Script" uid="uid://81hse5nagsf7" path="res://World/NPCs/npc.gd" id="2_ouhj1"]
+[ext_resource type="Resource" uid="uid://ddl3e5wfyntes" path="res://assets/gifts/allgifts/Eye.tres" id="2_v0303"]
+[ext_resource type="Resource" uid="uid://csh1sir8cmiyc" path="res://assets/gifts/allgifts/Steak.tres" id="3_0lrco"]
 [ext_resource type="Material" uid="uid://b4dnmyrioyj2y" path="res://World/NPCs/assets/materials/blue.tres" id="3_v0303"]
 [ext_resource type="Material" uid="uid://8igqy22vnm30" path="res://World/NPCs/assets/materials/belt.tres" id="4_0lrco"]
-[ext_resource type="Resource" uid="uid://wuwn0hm3lm4x" path="res://World/NPCs/cow/CowTimeline.dtl" id="4_v0303"]
-[ext_resource type="Resource" uid="uid://dan427dbk64le" path="res://World/NPCs/cow/cow.dch" id="5_0lrco"]
 [ext_resource type="Material" uid="uid://bdv8ukxxvekvb" path="res://World/NPCs/assets/materials/gold.tres" id="5_6mk14"]
-[ext_resource type="PackedScene" uid="uid://cur37ojlpje4v" path="res://World/interact_dialogue.tscn" id="6_6mk14"]
 [ext_resource type="Material" uid="uid://c4laio5ax7tw8" path="res://World/NPCs/assets/materials/purplegrayish.tres" id="6_rhp3g"]
 [ext_resource type="Material" uid="uid://drkganad82xvv" path="res://World/NPCs/assets/materials/white.tres" id="7_rhp3g"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_rhp3g"]
-height = 3.0
+[node name="WIZARD" instance=ExtResource("1_fvmdn")]
 
-[node name="_smooth_Wizard" instance=ExtResource("1_4efgh")]
+[node name="CharacterBody3D" parent="extras" index="0" node_paths=PackedStringArray("animations")]
+npc_name = "Oogle The Old"
+animations = NodePath("../../_smooth_Wizard/AnimationPlayer")
+dialogue_char = ExtResource("2_6mk14")
+dialogic_var_id = "wizard"
+acceptable_gift = ExtResource("2_v0303")
+gift_to_give = ExtResource("3_0lrco")
 
-[node name="Skeleton3D" parent="CharacterArmature" index="0"]
+[node name="_smooth_Wizard" parent="." index="1" instance=ExtResource("1_4efgh")]
+
+[node name="Skeleton3D" parent="_smooth_Wizard/CharacterArmature" index="0"]
 bones/1/position = Vector3(0.265425, 0.0402497, -0.105272)
 bones/1/rotation = Quaternion(5.75226e-06, 0.58639, 0.810029, 4.56215e-06)
 bones/2/position = Vector3(-0.0020478, 0.95829, 0.108561)
@@ -53,7 +60,7 @@ bones/21/rotation = Quaternion(-5.31634e-06, 0.67986, 0.733342, -5.34739e-06)
 bones/22/position = Vector3(-0.259374, 0.125382, 1.95082)
 bones/22/rotation = Quaternion(-3.55273e-15, -5.96046e-07, 3.38813e-21, 1)
 
-[node name="Body" parent="CharacterArmature/Skeleton3D" index="0"]
+[node name="Body" parent="_smooth_Wizard/CharacterArmature/Skeleton3D" index="0"]
 surface_material_override/0 = ExtResource("2_kv76i")
 surface_material_override/1 = ExtResource("3_v0303")
 surface_material_override/2 = ExtResource("4_0lrco")
@@ -62,32 +69,4 @@ surface_material_override/4 = ExtResource("6_rhp3g")
 surface_material_override/5 = ExtResource("7_rhp3g")
 surface_material_override/6 = ExtResource("7_rhp3g")
 
-[node name="extras" type="Node3D" parent="." index="2"]
-
-[node name="CharacterBody3D" type="CharacterBody3D" parent="extras" index="0"]
-script = ExtResource("2_ouhj1")
-npc_name = "Oogle The Old"
-dialogue = ExtResource("4_v0303")
-dialogue_char = ExtResource("5_0lrco")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="extras/CharacterBody3D" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-visible = false
-shape = SubResource("CapsuleShape3D_rhp3g")
-
-[node name="InteractDialogue" parent="extras" index="1" instance=ExtResource("6_6mk14")]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00909, 0)
-
-[node name="MoveToLocation" type="Node3D" parent="extras" index="2"]
-unique_name_in_owner = true
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 2)
-
-[node name="pic_view" type="SubViewport" parent="extras" index="3"]
-unique_name_in_owner = true
-handle_input_locally = false
-size = Vector2i(800, 800)
-
-[node name="piccam" type="Camera3D" parent="extras/pic_view" index="0"]
-unique_name_in_owner = true
-size = 1.25
+[editable path="_smooth_Wizard"]

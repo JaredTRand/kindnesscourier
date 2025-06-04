@@ -1,9 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://bwuj8e6qbl7fh"]
+[gd_scene load_steps=9 format=3 uid="uid://bwuj8e6qbl7fh"]
 
 [ext_resource type="PackedScene" uid="uid://cod4h7u2ios4t" path="res://World/NPCs/assets/base.tscn" id="1_nuh3y"]
 [ext_resource type="PackedScene" uid="uid://cm8s4rikjuhnk" path="res://World/NPCs/assets/blends/_smooth_Cow.blend" id="2_6kval"]
 [ext_resource type="Resource" uid="uid://dgtf7cjnvpoun" path="res://assets/gifts/allgifts/PetRock.tres" id="3_1qah0"]
+[ext_resource type="Material" uid="uid://bppl87ym2q18m" path="res://World/NPCs/assets/materials/black.tres" id="3_6kval"]
 [ext_resource type="Resource" uid="uid://csh1sir8cmiyc" path="res://assets/gifts/allgifts/Steak.tres" id="4_6kval"]
+[ext_resource type="Material" uid="uid://8igqy22vnm30" path="res://World/NPCs/assets/materials/belt.tres" id="4_cvept"]
+[ext_resource type="Material" uid="uid://drkganad82xvv" path="res://World/NPCs/assets/materials/white.tres" id="5_cvept"]
+[ext_resource type="Material" uid="uid://df2bcfswov5eb" path="res://World/NPCs/assets/materials/lightishpink.tres" id="6_8703u"]
 
 [node name="Base" instance=ExtResource("1_nuh3y")]
 
@@ -44,6 +48,16 @@ bones/21/position = Vector3(-0.262802, 0.0417278, -0.063796)
 bones/21/rotation = Quaternion(-5.31634e-06, 0.67986, 0.733342, -5.34739e-06)
 bones/22/position = Vector3(-0.259374, 0.125382, 1.95082)
 bones/22/rotation = Quaternion(-3.55273e-15, -5.96046e-07, 3.38813e-21, 1)
+
+[node name="Body" parent="_smooth_Cow/CharacterArmature/Skeleton3D" index="0"]
+surface_material_override/0 = ExtResource("3_6kval")
+surface_material_override/1 = ExtResource("4_cvept")
+surface_material_override/2 = ExtResource("3_6kval")
+surface_material_override/3 = ExtResource("5_cvept")
+surface_material_override/5 = ExtResource("5_cvept")
+surface_material_override/6 = ExtResource("5_cvept")
+surface_material_override/7 = ExtResource("3_6kval")
+surface_material_override/8 = ExtResource("6_8703u")
 
 [node name="CharacterBody3D" parent="extras" index="0" node_paths=PackedStringArray("animations")]
 npc_name = "Moorine"

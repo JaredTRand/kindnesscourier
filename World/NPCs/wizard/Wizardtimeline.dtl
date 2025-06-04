@@ -1,0 +1,43 @@
+if {BASE.first_interaction} == false:
+	jump firstInteraction
+elif {BASE.gift_from_player}:
+	jump receivedPlayerGiftandGivenPlayerGift
+elif Globals.player_has_gift( {BASE.acceptable_gift} ) == true:
+	jump receivingPlayerGift
+else:
+	jump secondInteractionNoGift
+[end_timeline]
+
+
+
+
+label firstInteraction
+set {BASE.first_interaction} = true
+wizard: Hmmm...
+wizard: Oh, hello there.
+wizard: I don't suppose you have any eyes on you?
+[end_timeline]
+
+label secondInteractionNoGift
+[end_timeline]
+
+label receivedPlayerGiftandGivenPlayerGift
+[end_timeline]
+
+label receivingPlayerGift
+
+do Globals.inc_happiness(BASE.happiness_inc_val)
+set {BASE.gift_from_player} = true
+do Globals.player_remove_gift({BASE.acceptable_gift})
+
+jump givePlayerGift
+[end_timeline]
+
+label givePlayerGift
+
+do Globals.player_gain_gift({cow.gift_to_give})
+set {cow.gift_to_player} = true
+[end_timeline]
+
+
+[end_timeline]

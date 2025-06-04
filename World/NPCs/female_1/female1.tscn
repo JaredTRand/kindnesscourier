@@ -1,0 +1,23 @@
+[gd_scene load_steps=8 format=3 uid="uid://cxd8r6pfub02c"]
+
+[ext_resource type="PackedScene" uid="uid://cod4h7u2ios4t" path="res://World/NPCs/assets/base.tscn" id="1_kwyv8"]
+[ext_resource type="PackedScene" uid="uid://br7tflpx6jg0h" path="res://World/NPCs/female_1/_smooth_Casual_Female.blend" id="2_kjhyf"]
+[ext_resource type="Material" uid="uid://di0v7vhlvtf38" path="res://World/NPCs/assets/materials/whiteskin.tres" id="3_kjhyf"]
+[ext_resource type="Material" uid="uid://dmbid08wglu3t" path="res://World/NPCs/assets/materials/brown.tres" id="4_6onih"]
+[ext_resource type="Material" uid="uid://b4dnmyrioyj2y" path="res://World/NPCs/assets/materials/blue.tres" id="5_ii6jp"]
+[ext_resource type="Material" uid="uid://bppl87ym2q18m" path="res://World/NPCs/assets/materials/black.tres" id="6_6onih"]
+[ext_resource type="Material" uid="uid://natlnuii7iu4" path="res://World/NPCs/assets/materials/skin_choc.tres" id="7_ii6jp"]
+
+[node name="Base" instance=ExtResource("1_kwyv8")]
+
+[node name="_smooth_Casual_Female" parent="." index="0" instance=ExtResource("2_kjhyf")]
+
+[node name="Body" parent="_smooth_Casual_Female/CharacterArmature/Skeleton3D" index="0"]
+surface_material_override/0 = ExtResource("3_kjhyf")
+surface_material_override/1 = ExtResource("4_6onih")
+surface_material_override/2 = ExtResource("5_ii6jp")
+surface_material_override/3 = ExtResource("5_ii6jp")
+surface_material_override/4 = ExtResource("6_6onih")
+surface_material_override/5 = ExtResource("7_ii6jp")
+
+[editable path="_smooth_Casual_Female"]

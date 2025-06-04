@@ -1,8 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://cod4h7u2ios4t"]
+[gd_scene load_steps=4 format=3 uid="uid://cod4h7u2ios4t"]
 
 [ext_resource type="Script" uid="uid://81hse5nagsf7" path="res://World/NPCs/npc.gd" id="1_ohhpf"]
-[ext_resource type="Resource" uid="uid://wuwn0hm3lm4x" path="res://World/NPCs/cow/CowTimeline.dtl" id="2_21bcp"]
-[ext_resource type="Resource" uid="uid://dan427dbk64le" path="res://World/NPCs/cow/cow.dch" id="3_tpea4"]
 [ext_resource type="PackedScene" uid="uid://cur37ojlpje4v" path="res://World/interact_dialogue.tscn" id="4_42dj3"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_56f15"]
@@ -14,9 +12,7 @@ height = 3.0
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="extras"]
 script = ExtResource("1_ohhpf")
-npc_name = "Oogle The Old"
-dialogue = ExtResource("2_21bcp")
-dialogue_char = ExtResource("3_tpea4")
+happiness_inc_val = 5
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="extras/CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)

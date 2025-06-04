@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Gift" load_steps=2 format=3 uid="uid://ddl3e5wfyntes"]
+
+[ext_resource type="Script" uid="uid://blstnqwtri557" path="res://assets/gifts/gift.gd" id="2_xayp1"]
+
+[resource]
+script = ExtResource("2_xayp1")
+gift_name = "Eye of Dude"
+gift_type = ""
+metadata/_custom_type_script = "uid://blstnqwtri557"

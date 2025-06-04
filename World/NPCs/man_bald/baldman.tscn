@@ -1,0 +1,19 @@
+[gd_scene load_steps=6 format=3 uid="uid://bn7wuup0ngd7e"]
+
+[ext_resource type="PackedScene" uid="uid://cod4h7u2ios4t" path="res://World/NPCs/assets/base.tscn" id="1_lonis"]
+[ext_resource type="PackedScene" uid="uid://ctji32lup6lin" path="res://World/NPCs/man_bald/_smooth_Casual_Bald.blend" id="2_dqj5a"]
+[ext_resource type="Material" uid="uid://dmbid08wglu3t" path="res://World/NPCs/assets/materials/brown.tres" id="3_j4ddm"]
+[ext_resource type="Material" uid="uid://drkganad82xvv" path="res://World/NPCs/assets/materials/white.tres" id="4_rh5yh"]
+[ext_resource type="Material" uid="uid://8igqy22vnm30" path="res://World/NPCs/assets/materials/belt.tres" id="5_soo7b"]
+
+[node name="BaldMan" instance=ExtResource("1_lonis")]
+
+[node name="_smooth_Casual_Bald" parent="." index="0" instance=ExtResource("2_dqj5a")]
+
+[node name="Body" parent="_smooth_Casual_Bald/CharacterArmature/Skeleton3D" index="0"]
+surface_material_override/0 = ExtResource("3_j4ddm")
+surface_material_override/1 = ExtResource("4_rh5yh")
+surface_material_override/2 = ExtResource("5_soo7b")
+surface_material_override/3 = ExtResource("5_soo7b")
+
+[editable path="_smooth_Casual_Bald"]
